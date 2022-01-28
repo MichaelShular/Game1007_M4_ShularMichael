@@ -45,8 +45,8 @@ public class GridController : MonoBehaviour
         //{
         //    Debug.Log(item);
         //}
-        int count = 0;
-        int countTwo = 0;
+        //int count = 0;
+        //int countTwo = 0;
 
 
         //surroundingElements();
@@ -204,6 +204,12 @@ public class GridController : MonoBehaviour
             case resourceAmount.Scan:
                 cells[row, column].GetComponent<CellController>().changeColorBlue();
                 break;
+            case resourceAmount.Excavate:
+                cells[row, column].GetComponent<CellController>().DegradedTileResource(true);
+                break;
+            case resourceAmount.Degrade:
+                cells[row, column].GetComponent<CellController>().DegradedTileResource(false);
+                break;
             default:
                 break;
         }
@@ -245,11 +251,56 @@ public class GridController : MonoBehaviour
         Check(row + 1, column + 1, resourceAmount.Scan);
     }
 
+    public void excavateResource(int row, int column)
+    {
+        Check(row, column, resourceAmount.Excavate);
+
+        Check(row - 1, column - 1, resourceAmount.Degrade);
+        Check(row - 1, column, resourceAmount.Degrade);
+        Check(row - 1, column + 1, resourceAmount.Degrade);
+        Check(row, column - 1, resourceAmount.Degrade);
+        Check(row, column + 1, resourceAmount.Degrade);
+        Check(row + 1, column - 1, resourceAmount.Degrade);
+        Check(row + 1, column, resourceAmount.Degrade);
+        Check(row + 1, column + 1, resourceAmount.Degrade);
+
+        Check(row - 2, column - 2, resourceAmount.Degrade);
+        Check(row - 2, column - 1, resourceAmount.Degrade);
+        Check(row - 2, column, resourceAmount.Degrade);
+        Check(row - 2, column + 1, resourceAmount.Degrade);
+        Check(row - 2, column + 2, resourceAmount.Degrade);
+        Check(row - 1, column - 2, resourceAmount.Degrade);
+        Check(row - 1, column + 2, resourceAmount.Degrade);
+        Check(row, column - 2, resourceAmount.Degrade);
+        Check(row, column + 2, resourceAmount.Degrade);
+        Check(row + 1, column - 2, resourceAmount.Degrade);
+        Check(row + 1, column + 2, resourceAmount.Degrade);
+        Check(row + 2, column - 2, resourceAmount.Degrade);
+        Check(row + 2, column - 1, resourceAmount.Degrade);
+        Check(row + 2, column, resourceAmount.Degrade);
+        Check(row + 2, column + 1, resourceAmount.Degrade);
+        Check(row + 2, column + 2, resourceAmount.Degrade);
+    }
+
+    public void gameOverShowAllTiles()
+    {
+        for (int i = 0; i < amountOfRows; i++)
+        {
+            for (int j = 0; j < amountOfColumns; j++)
+            {
+                cells[i,j].GetComponent<CellController>().changeColorBlue();
+
+            }
+        }
+    }
+
     public enum resourceAmount
     {
         HALF,
         Quarter,
-        Scan
+        Scan,
+        Excavate,
+        Degrade
     }
 
 

@@ -26,4 +26,19 @@ public class GameController : MonoBehaviour
         amountOfPoints += amount;
     }
 
+    public void setAmountOfScans(int amount)
+    {
+        amountOfScans += amount;
+    }
+
+    public void setAmountOfExcavations(int amount)
+    {
+        amountOfExcavations += amount;
+    }
+
+    public void toggleScanAndExcavation()
+    {
+        scanMode = !scanMode;
+    }
+
 }
