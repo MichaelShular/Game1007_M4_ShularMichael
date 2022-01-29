@@ -9,39 +9,20 @@ public class CellController : MonoBehaviour
     public int row;
     public int column;
     public bool isScanned;
-    // Start is called before the first frame update
+    private GameController gameController;
     void Start()
     {
+        gameController = GameObject.Find("MiniGameCanvas").GetComponent<GameController>();
         isScanned = false;
     }
-
-    // Update is called once per frame
-    void Update()
+    public void setResourceAmount(int amount)
     {
-        
+        resourceAmount = amount;
     }
-
-    public void changeColor()
-    {
-        //this.GetComponent<Image>().color = Color.green;
-        resourceAmount = 1000;
-    }
-    public void changeColorRed()
-    {
-        //this.GetComponent<Image>().color = Color.red;
-        resourceAmount = 500;
-
-    }
-
-    public void changeColorYellow()
-    {
-        //this.GetComponent<Image>().color = Color.yellow;
-        resourceAmount = 250;
-    }
-
-    public void changeColorBlue()
+    public void scanTileAndUpdateColor()
     {
         isScanned = true;
+        //change tile color
         switch (resourceAmount)
         {
             case 0:
@@ -59,31 +40,21 @@ public class CellController : MonoBehaviour
             default:
                 break;
         }
-
-        //this.GetComponent<Image>().color = Color.blue;
-        //resourceAmount = 250;
     }
-    public void setResourceAmount(int amount)
-    {
-        resourceAmount = amount;
-    }
+    
 
     public void clickOnCell()
     {
-        bool temp = GameObject.Find("MiniGameCanvas").GetComponent<GameController>().scanMode;
-        int amountOfScansLeft = GameObject.Find("MiniGameCanvas").GetComponent<GameController>().amountOfScans;
-        int amountOfExcavatesLeft = GameObject.Find("MiniGameCanvas").GetComponent<GameController>().amountOfExcavations;
-
-        if (temp && amountOfScansLeft > 0)
+        if (gameController.scanMode && gameController.amountOfScans > 0)
         {
             GameObject.Find("Grid").GetComponent<GridController>().scanElements(row, column);
-            GameObject.Find("MiniGameCanvas").GetComponent<GameController>().setAmountOfScans(-1);
+            gameController.setAmountOfScans(-1);
         }
         
-        if(!temp && amountOfExcavatesLeft > 0)
+        if(!gameController.scanMode && gameController.amountOfExcavations > 0)
         { 
             GameObject.Find("Grid").GetComponent<GridController>().excavateResource(row, column);
-            GameObject.Find("MiniGameCanvas").GetComponent<GameController>().setAmountOfExcavations(-1);
+            gameController.setAmountOfExcavations(-1);
 
             if(GameObject.Find("MiniGameCanvas").GetComponent<GameController>().amountOfExcavations == 0)
             {
@@ -97,7 +68,7 @@ public class CellController : MonoBehaviour
     {
         if (isCollected)
         {
-            GameObject.Find("MiniGameCanvas").GetComponent<GameController>().setAmountOfPoints(resourceAmount);
+            gameController.setAmountOfPoints(resourceAmount);
         }
 
         resourceAmount = resourceAmount / 2;
@@ -107,7 +78,7 @@ public class CellController : MonoBehaviour
         }
         if (isScanned)
         {
-            changeColorBlue();
+            scanTileAndUpdateColor();
         }        
     }
 

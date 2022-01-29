@@ -25,7 +25,7 @@ public class GridController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        amountOfResourceNodes = Random.Range(5, 15);
+        amountOfResourceNodes = Random.Range(8, 15);
         resourceNodes = new int[amountOfResourceNodes, 2];
         cells = new GameObject[amountOfRows, amountOfColumns];
 
@@ -71,7 +71,7 @@ public class GridController : MonoBehaviour
 
         for (int i = 0; i < amountOfResourceNodes; i++)
         {
-            cells[resourceNodes[i, 0], resourceNodes[i, 1]].GetComponent<CellController>().changeColor();
+            cells[resourceNodes[i, 0], resourceNodes[i, 1]].GetComponent<CellController>().setResourceAmount(1000);
             surroundingElements(resourceNodes[i, 0], resourceNodes[i, 1]);
 
 
@@ -196,13 +196,13 @@ public class GridController : MonoBehaviour
         switch (amount)
         {
             case resourceAmount.HALF:
-                cells[row, column].GetComponent<CellController>().changeColorRed();
+                cells[row, column].GetComponent<CellController>().setResourceAmount(500);
                 break;
             case resourceAmount.Quarter:
-                cells[row, column].GetComponent<CellController>().changeColorYellow();
+                cells[row, column].GetComponent<CellController>().setResourceAmount(250);
                 break;
             case resourceAmount.Scan:
-                cells[row, column].GetComponent<CellController>().changeColorBlue();
+                cells[row, column].GetComponent<CellController>().scanTileAndUpdateColor();
                 break;
             case resourceAmount.Excavate:
                 cells[row, column].GetComponent<CellController>().DegradedTileResource(true);
@@ -288,7 +288,7 @@ public class GridController : MonoBehaviour
         {
             for (int j = 0; j < amountOfColumns; j++)
             {
-                cells[i,j].GetComponent<CellController>().changeColorBlue();
+                cells[i,j].GetComponent<CellController>().scanTileAndUpdateColor();
 
             }
         }

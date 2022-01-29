@@ -14,7 +14,7 @@ public class GameController : MonoBehaviour
     public TextMeshProUGUI numberOfScansGUI;
     public TextMeshProUGUI numberOfExcavationsGUI;
     public TextMeshProUGUI amountOfOreCollectedGUI;
-
+    public TextMeshProUGUI informationGUI;
 
 
     // Start is called before the first frame update
@@ -26,7 +26,11 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //Closing Application
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
 
     public void setAmountOfPoints(int amount)
@@ -38,22 +42,27 @@ public class GameController : MonoBehaviour
     public void setAmountOfScans(int amount)
     {
         amountOfScans += amount;
+        
         numberOfScansGUI.text = amountOfScans.ToString();
     }
 
     public void setAmountOfExcavations(int amount)
     {
         amountOfExcavations += amount;
-        numberOfExcavationsGUI.text = amountOfExcavations.ToString();
+        if (amountOfExcavations <= 0)
+        {
+            Debug.Log(amountOfExcavations);
+            informationGUI.text = "Game over";
+        }
+        numberOfExcavationsGUI.text = amountOfExcavations.ToString(); 
+        
     }
-
     public void ScanButton()
     {
         scanButton.interactable = false;
         exavationButton.interactable = true;
         scanMode = !scanMode;
     }
-
     public void ExcavationButton()
     {
         scanButton.interactable = true;
