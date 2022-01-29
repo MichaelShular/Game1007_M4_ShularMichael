@@ -718,10 +718,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66b3271bf6b01bf49b7a5d208ee8db0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cellObject: {fileID: 1690387318550244254, guid: 4750410d8432e8c43a00df377d4c07ac, type: 3}
+  grid: {fileID: 704654485}
+  cellTile: {fileID: 1690387318550244254, guid: 4750410d8432e8c43a00df377d4c07ac, type: 3}
   amountOfRows: 32
   amountOfColumns: 32
-  grid: {fileID: 704654485}
 --- !u!114 &704654487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1689,7 +1689,10 @@ MonoBehaviour:
 
 
     Extract Mode: Click
-    tile to dig up deposit'
+    tile to dig up deposit
+
+
+    Switch Mode: Click on Higlighted button'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1716,8 +1719,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 35
+  m_fontSizeBase: 35
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

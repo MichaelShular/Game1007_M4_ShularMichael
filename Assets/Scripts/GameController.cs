@@ -32,7 +32,6 @@ public class GameController : MonoBehaviour
             Application.Quit();
         }
     }
-
     public void setAmountOfPoints(int amount)
     {
         amountOfPoints += amount;
@@ -51,7 +50,6 @@ public class GameController : MonoBehaviour
         amountOfExcavations += amount;
         if (amountOfExcavations <= 0)
         {
-            Debug.Log(amountOfExcavations);
             informationGUI.text = "Game over";
         }
         numberOfExcavationsGUI.text = amountOfExcavations.ToString(); 
