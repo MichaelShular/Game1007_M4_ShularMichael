@@ -76,6 +76,7 @@ public class PinController : MonoBehaviour
         if (collision.CompareTag("CanStop"))
         {
             _canStop = true;
+            collision.GetComponent<AudioSource>().Play();
         }
 
         Debug.Log("Hit");
