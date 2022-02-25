@@ -5,12 +5,13 @@ using UnityEngine;
  {
     Stopped,
     Up,
-    Reset
+    Reset,
+    SetInPlace
  }
 public class PinController : MonoBehaviour
 {
     public float _speed; 
-    public bool _canMove;
+    public bool _canStop;
     private Vector3 _direction;
     public PinState _currentState;
     public Vector3 _startPos;
@@ -39,12 +40,13 @@ public class PinController : MonoBehaviour
                 setPinDirection(Vector3.down);
                 movement();
                 break;
+            case PinState.SetInPlace:
+                
+                break;
             default:
                 break;
-        }
-        
+        }   
     }
-
     private void movement()
     {
         transform.position += _direction * _speed * Time.deltaTime; 
@@ -63,14 +65,19 @@ public class PinController : MonoBehaviour
     {
         if (collision.CompareTag("DirectionChangeZone"))
         {
-            if(_currentState == PinState.Reset)
+            _canStop = false;
+            if (_currentState == PinState.Reset)
             {
                 _currentState = 0;
                 return;
             }
             _currentState++;
         }
-        
+        if (collision.CompareTag("CanStop"))
+        {
+            _canStop = true;
+        }
+
         Debug.Log("Hit");
     }
 

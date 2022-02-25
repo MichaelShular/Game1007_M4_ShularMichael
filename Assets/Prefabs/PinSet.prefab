@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3070590253883914518}
   m_Layer: 5
   m_Name: StartClick
-  m_TagString: Untagged
+  m_TagString: CanStop
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -344,8 +344,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 20
-  _canMove: 0
+  _canStop: 0
   _currentState: 0
+  _startPos: {x: 0, y: 0, z: 0}
 --- !u!50 &3070590254706492791
 Rigidbody2D:
   serializedVersion: 4
