@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 public class LockMiniGameController : MonoBehaviour
 {
     public GameObject _pinSet;
@@ -11,30 +11,35 @@ public class LockMiniGameController : MonoBehaviour
     public GameObject _pick;
     public GameObject _gamePick;
     public float _pickHeight;
-    public int currentPinPickIsOn;
+    public int _currentPinPickIsOn;
+    public GameObject _resultPanel;
+    private IEnumerator _timer;
+    public float _amountOfTime;
+
     // Start is called before the first frame update
     void Start()
     {
-        currentPinPickIsOn = 0;
+        _currentPinPickIsOn = 0;
         _gamePick = null;
+        _timer = null;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A) && currentPinPickIsOn > 0)
+        if (Input.GetKeyDown(KeyCode.A) && _currentPinPickIsOn > 0)
         {
-            currentPinPickIsOn--;
-            _gamePick.transform.position = new Vector3(_allPinInGame[currentPinPickIsOn].transform.position.x, _pickHeight, _allPinInGame[currentPinPickIsOn].transform.position.z);
+            _currentPinPickIsOn--;
+            _gamePick.transform.position = new Vector3(_allPinInGame[_currentPinPickIsOn].transform.position.x, _pickHeight, _allPinInGame[_currentPinPickIsOn].transform.position.z);
         }
-        if (Input.GetKeyDown(KeyCode.D) && currentPinPickIsOn < _allPinInGame.Count - 1)
+        if (Input.GetKeyDown(KeyCode.D) && _currentPinPickIsOn < _allPinInGame.Count - 1)
         {
-            currentPinPickIsOn++;
-            _gamePick.transform.position = new Vector3(_allPinInGame[currentPinPickIsOn].transform.position.x, _pickHeight, _allPinInGame[currentPinPickIsOn].transform.position.z);
+            _currentPinPickIsOn++;
+            _gamePick.transform.position = new Vector3(_allPinInGame[_currentPinPickIsOn].transform.position.x, _pickHeight, _allPinInGame[_currentPinPickIsOn].transform.position.z);
         }
-        if (Input.GetKeyDown(KeyCode.Mouse1) && _allPinInGame[currentPinPickIsOn].GetComponentInChildren<PinController>()._currentState == PinState.Stopped)
+        if (Input.GetKeyDown(KeyCode.Mouse1) && _allPinInGame[_currentPinPickIsOn].GetComponentInChildren<PinController>()._currentState == PinState.Stopped)
         {
-            _allPinInGame[currentPinPickIsOn].GetComponentInChildren<PinController>()._currentState = PinState.Up;
+            _allPinInGame[_currentPinPickIsOn].GetComponentInChildren<PinController>()._currentState = PinState.Up;
         }
     }
 
@@ -49,14 +54,21 @@ public class LockMiniGameController : MonoBehaviour
         if (_gamePick == null)
         {
             _gamePick = Instantiate(_pick, transform);
-            _gamePick.transform.position = new Vector3(_allPinInGame[currentPinPickIsOn].transform.position.x, _pickHeight, _allPinInGame[currentPinPickIsOn].transform.position.z);
+            _gamePick.transform.position = new Vector3(_allPinInGame[_currentPinPickIsOn].transform.position.x, _pickHeight, _allPinInGame[_currentPinPickIsOn].transform.position.z);
         }
 
     }
 
     public void startNewPickGame(int numberOfPins)
     {
-        
+        if(_timer != null)
+        {
+            StopCoroutine(_timer);
+            _timer = null;
+        }
+        _timer = CountDown(numberOfPins * _amountOfTime);
+        StartCoroutine(_timer);
+        _resultPanel.SetActive(false);
         for (int i = 0; i < _allPinInGame.Count; i++)
         {
             Destroy(_allPinInGame[i].gameObject);
@@ -65,4 +77,22 @@ public class LockMiniGameController : MonoBehaviour
         createLock(numberOfPins);
     }
 
+    public void openCanvas(bool win)
+    {
+        _resultPanel.SetActive(true);
+        if (win)
+        {
+            _resultPanel.GetComponentInChildren<TextMeshProUGUI>().text = "Win";
+        }
+        else
+        {
+            _resultPanel.GetComponentInChildren<TextMeshProUGUI>().text = "Fail";
+        }
+    }
+
+    IEnumerator CountDown(float amountOfSec)
+    {
+        yield return new WaitForSeconds(amountOfSec);
+        openCanvas(false);
+    }
 }
