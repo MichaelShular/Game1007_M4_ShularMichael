@@ -13,10 +13,12 @@ public class PinController : MonoBehaviour
     public bool _canMove;
     private Vector3 _direction;
     public PinState _currentState;
+    public Vector3 _startPos;
 
     // Start is called before the first frame update
     void Start()
     {
+        _startPos = transform.position;
         _direction = Vector3.up;
         _currentState = PinState.Stopped;
     }
@@ -27,6 +29,7 @@ public class PinController : MonoBehaviour
         switch (_currentState)
         {
             case PinState.Stopped:
+                transform.position = _startPos;
                 break;
             case PinState.Up:
                 setPinDirection(Vector3.up);
@@ -60,7 +63,7 @@ public class PinController : MonoBehaviour
     {
         if (collision.CompareTag("DirectionChangeZone"))
         {
-            if(_currentState.Equals(2))
+            if(_currentState == PinState.Reset)
             {
                 _currentState = 0;
                 return;
