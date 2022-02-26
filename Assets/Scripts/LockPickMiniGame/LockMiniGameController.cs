@@ -186,6 +186,9 @@ public class LockMiniGameController : MonoBehaviour
         //Resetting pick position
         _currentPinPickIsOn = 0;
         _gamePick.transform.position = new Vector3(_allPinInGame[_currentPinPickIsOn].transform.position.x, _pickHeight, _allPinInGame[_currentPinPickIsOn].transform.position.z);
+        //Resetting number of picks
+        player._numberOfPicks = 10;
+        player._UINumberOfPicks.text = "Number of Picks: " + player._numberOfPicks;
     }
     public void openCanvas(bool win)
     {

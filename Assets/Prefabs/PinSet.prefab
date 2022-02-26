@@ -427,6 +427,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 20
   _canStop: 0
+  _earlyClick: 0
   _currentState: 0
   _startPos: {x: 0, y: 0, z: 0}
 --- !u!50 &3070590254706492791
