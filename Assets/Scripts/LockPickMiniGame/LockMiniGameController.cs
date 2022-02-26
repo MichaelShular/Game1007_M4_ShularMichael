@@ -12,7 +12,8 @@ public class LockMiniGameController : MonoBehaviour
     public TextMeshProUGUI _UITimer;
     private GameObject _gamePick;
     public List<GameObject> _allPinInGame;
-    
+    public TextMeshProUGUI _UIDifficultyType;
+
     [Header("Game Look Settings")]
     public Vector3 _pitSetSpacing;
     public float _pickHeight;
@@ -93,15 +94,15 @@ public class LockMiniGameController : MonoBehaviour
             {
                 case 3:
                     _allPinInGame[i].GetComponentInChildren<PinController>()._speed = _easySpeed;
-
+                    _allPinInGame[i].GetComponentInChildren<PinTriggerZone>().setTiggerZoneHeight(Random.Range(_minEasySpace, _maxEasySpace));
                     break;
                 case 4:
                     _allPinInGame[i].GetComponentInChildren<PinController>()._speed = _MediumSpeed;
-
+                    _allPinInGame[i].GetComponentInChildren<PinTriggerZone>().setTiggerZoneHeight(Random.Range(_minMediumSpace, _maxMediumSpace));
                     break;
                 case 5:
                     _allPinInGame[i].GetComponentInChildren<PinController>()._speed = _HardSpeed;
-
+                    _allPinInGame[i].GetComponentInChildren<PinTriggerZone>().setTiggerZoneHeight(Random.Range(_minHardSpace, _maxHardSpace));
                     break;
                 default:
                     Debug.Log(numberOfPins + "Lock Settings doesn't exist");
@@ -129,6 +130,22 @@ public class LockMiniGameController : MonoBehaviour
             Destroy(_allPinInGame[i].gameObject);
         }
         _allPinInGame.Clear();
+
+        switch (numberOfPins)
+        {
+            case 3:
+                _UIDifficultyType.text = "Current Difficulty: Easy";
+                break;
+            case 4:
+                _UIDifficultyType.text = "Current Difficulty: Medium";
+                break;
+            case 5:
+                _UIDifficultyType.text = "Current Difficulty: Hard";
+                break;
+            default:
+                Debug.Log(numberOfPins + "Lock Settings doesn't exist");
+                break;
+        }
         createLock(numberOfPins);
     }
     public void openCanvas(bool win)

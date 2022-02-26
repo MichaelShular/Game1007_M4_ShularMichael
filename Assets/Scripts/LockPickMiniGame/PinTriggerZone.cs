@@ -4,15 +4,8 @@ using UnityEngine;
 
 public class PinTriggerZone : MonoBehaviour
 {
-    public Vector3 _PinDirection;
-    void Start()
+   public void setTiggerZoneHeight(float height)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        transform.localPosition = new Vector3(transform.localPosition.x, height, transform.localPosition.z);
     }
 }

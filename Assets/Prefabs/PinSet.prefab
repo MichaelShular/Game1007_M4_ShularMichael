@@ -222,7 +222,6 @@ GameObject:
   - component: {fileID: 3070590253996927236}
   - component: {fileID: 3070590253996927239}
   - component: {fileID: 3070590253996927238}
-  - component: {fileID: 3070590253996927237}
   m_Layer: 5
   m_Name: FailedClick
   m_TagString: DirectionChangeZone
@@ -310,19 +309,6 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
---- !u!114 &3070590253996927237
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3070590253996927232}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0f3c3b28f71cca4cb89b567db3c432a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _PinDirection: {x: 0, y: -1, z: 0}
 --- !u!1 &3070590254706492797
 GameObject:
   m_ObjectHideFlags: 0
@@ -477,7 +463,6 @@ GameObject:
   - component: {fileID: 3070590254725744287}
   - component: {fileID: 3070590254725744286}
   - component: {fileID: 3070590254725744281}
-  - component: {fileID: 3070590254725744280}
   m_Layer: 5
   m_Name: Stop
   m_TagString: DirectionChangeZone
@@ -565,19 +550,6 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
---- !u!114 &3070590254725744280
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3070590254725744282}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0f3c3b28f71cca4cb89b567db3c432a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _PinDirection: {x: 0, y: -1, z: 0}
 --- !u!1 &8387415248622974264
 GameObject:
   m_ObjectHideFlags: 0
