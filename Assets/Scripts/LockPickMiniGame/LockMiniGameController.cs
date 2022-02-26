@@ -48,13 +48,15 @@ public class LockMiniGameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //stops pick from moving and pressing on pin after game is lost
         if (!_canPlay) return;
-
+        //move pick to left
         if (Input.GetKeyDown(KeyCode.A) && _currentPinPickIsOn > 0)
         {
             _currentPinPickIsOn--;
             _gamePick.transform.position = new Vector3(_allPinInGame[_currentPinPickIsOn].transform.position.x, _pickHeight, _allPinInGame[_currentPinPickIsOn].transform.position.z);
         }
+        //move pick to right
         if (Input.GetKeyDown(KeyCode.D) && _currentPinPickIsOn < _allPinInGame.Count - 1)
         {
             _currentPinPickIsOn++;
@@ -62,16 +64,17 @@ public class LockMiniGameController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
+            //stop player from span clicking before trigger zone and can breaks pick if an early click happens 
             if (_allPinInGame[_currentPinPickIsOn].GetComponentInChildren<PinController>()._currentState == PinState.Up)
             {
                 _allPinInGame[_currentPinPickIsOn].GetComponentInChildren<PinController>()._earlyClick = true;
-
+                //chance to break pick
                 if(Random.Range(0 , 100) + (player._LockSkillLevel * 100 / 2) < 50)
                 {
                     --player._numberOfPicks;
                     player._UINumberOfPicks.text = "Number of Picks: " + player._numberOfPicks;
                 }
-
+                //check if player lost 
                 if(player._numberOfPicks < 1)
                 {
                     for (int i = 0; i < _allPinInGame.Count; i++)
@@ -81,11 +84,12 @@ public class LockMiniGameController : MonoBehaviour
                     openCanvas(false);
                 }
             }
-
+            //starts pin movement up
             if(_allPinInGame[_currentPinPickIsOn].GetComponentInChildren<PinController>()._currentState == PinState.Stopped)
             {
                 _allPinInGame[_currentPinPickIsOn].GetComponentInChildren<PinController>()._currentState = PinState.Up;
             }
+            //to set pin in place
             if ((_allPinInGame[_currentPinPickIsOn].GetComponentInChildren<PinController>()._canStop))
             {
                 _allPinInGame[_currentPinPickIsOn].GetComponentInChildren<PinController>()._currentState = PinState.SetInPlace;
@@ -107,11 +111,13 @@ public class LockMiniGameController : MonoBehaviour
     }
     public void createLock(int numberOfPins)
     {
+        //creating lock pins
         for (int i = 0; i < numberOfPins; i++)
         {
             var temp = Instantiate(_pinSet, transform);
             temp.transform.position = _startPosition.transform.position + (_pitSetSpacing * i);
             _allPinInGame.Add(temp);
+            //setting trigger zone and pin speed base on number of pins
             switch (numberOfPins)
             {
                 case 3:
@@ -131,6 +137,7 @@ public class LockMiniGameController : MonoBehaviour
                     break;
             }
         }
+        //make a pick if no pick exists
         if (_gamePick == null)
         {
             _gamePick = Instantiate(_pick, transform);
@@ -139,21 +146,27 @@ public class LockMiniGameController : MonoBehaviour
     }
     public void startNewPickGame(int numberOfPins)
     {
+        //reseting values
         _canPlay = true;
         if (_timer != null)
         {
             StopCoroutine(_timer);
             _timer = null;
         }
+        //calulating timer base on difficulty
         _timer = CountDown(numberOfPins * _amountOfTime);
+        //starting timer
         StartCoroutine(_timer);
+        //reseting values
         _resultPanel.SetActive(false);
+        //reseting values
         for (int i = 0; i < _allPinInGame.Count; i++)
         {
             Destroy(_allPinInGame[i].gameObject);
         }
+        //reseting values
         _allPinInGame.Clear();
-
+        //Setting UI 
         switch (numberOfPins)
         {
             case 3:
@@ -170,9 +183,13 @@ public class LockMiniGameController : MonoBehaviour
                 break;
         }
         createLock(numberOfPins);
+        //Resetting pick position
+        _currentPinPickIsOn = 0;
+        _gamePick.transform.position = new Vector3(_allPinInGame[_currentPinPickIsOn].transform.position.x, _pickHeight, _allPinInGame[_currentPinPickIsOn].transform.position.z);
     }
     public void openCanvas(bool win)
     {
+        //Game result display opens
         _resultPanel.SetActive(true);
         _canPlay = false;
         if (win)

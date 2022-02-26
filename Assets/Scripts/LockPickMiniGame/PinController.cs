@@ -43,7 +43,6 @@ public class PinController : MonoBehaviour
                 dowmMovement();
                 break;
             case PinState.SetInPlace:
-
                 break;
             default:
                 break;
@@ -53,6 +52,7 @@ public class PinController : MonoBehaviour
     {
         transform.position += _direction * _speed * Time.deltaTime;
     }
+    //Using dowm movement so pin fall all at the same speed
     private void dowmMovement()
     {
         transform.position += _direction * 50 * Time.deltaTime;
@@ -61,25 +61,25 @@ public class PinController : MonoBehaviour
     {
         _direction = dir;
     }
-
     public void setPinSpeed(float speed)
     {
         _speed = speed;
     }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        //if pin hit fail zone or stop zone
         if (collision.CompareTag("DirectionChangeZone"))
         {
+            _earlyClick = false;
             _canStop = false;
             if (_currentState == PinState.Reset)
             {
                 _currentState = 0;
                 return;
             }
-            _earlyClick = false;
             _currentState++;
         }
+        //if pin hits trigger zone
         if (collision.CompareTag("CanStop"))
         {
             if (_currentState == PinState.Up)
@@ -91,8 +91,7 @@ public class PinController : MonoBehaviour
                 collision.GetComponent<AudioSource>().Play();
             }
         }
-
-        Debug.Log("Hit");
+        //Debug.Log("Hit");
     }
 
 
