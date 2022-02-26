@@ -4,24 +4,41 @@ using UnityEngine;
 using TMPro;
 public class LockMiniGameController : MonoBehaviour
 {
+    [Header("Setting GameObjects")]
     public GameObject _pinSet;
     public GameObject _startPosition;
-    public Vector3 _pitSetSpacing;
-    public List<GameObject> _allPinInGame;
-    public GameObject _pick;
-    public GameObject _gamePick;
-    public float _pickHeight;
-    public int _currentPinPickIsOn;
     public GameObject _resultPanel;
-    private IEnumerator _timer;
+    public GameObject _pick;
+    public TextMeshProUGUI _UITimer;
+    private GameObject _gamePick;
+    public List<GameObject> _allPinInGame;
+    
+    [Header("Game Look Settings")]
+    public Vector3 _pitSetSpacing;
+    public float _pickHeight;
+    private int _currentPinPickIsOn;
+    
+    [Header("Game Settings")]
     public float _amountOfTime;
-
+    private IEnumerator _timer;
+    
+    [Header("Difficulty Settings")]
+    public float _easySpeed;
+    public float _MediumSpeed;
+    public float _HardSpeed;
+    public float _minEasySpace;
+    public float _maxEasySpace;
+    public float _minMediumSpace;
+    public float _maxMediumSpace;
+    public float _minHardSpace;
+    public float _maxHardSpace;
     // Start is called before the first frame update
     void Start()
     {
         _currentPinPickIsOn = 0;
         _gamePick = null;
         _timer = null;
+        
     }
 
     // Update is called once per frame
@@ -72,6 +89,24 @@ public class LockMiniGameController : MonoBehaviour
             var temp = Instantiate(_pinSet, transform);
             temp.transform.position = _startPosition.transform.position + (_pitSetSpacing * i);
             _allPinInGame.Add(temp);
+            switch (numberOfPins)
+            {
+                case 3:
+                    _allPinInGame[i].GetComponentInChildren<PinController>()._speed = _easySpeed;
+
+                    break;
+                case 4:
+                    _allPinInGame[i].GetComponentInChildren<PinController>()._speed = _MediumSpeed;
+
+                    break;
+                case 5:
+                    _allPinInGame[i].GetComponentInChildren<PinController>()._speed = _HardSpeed;
+
+                    break;
+                default:
+                    Debug.Log(numberOfPins + "Lock Settings doesn't exist");
+                    break;
+            }
         }
         if (_gamePick == null)
         {
@@ -110,7 +145,17 @@ public class LockMiniGameController : MonoBehaviour
     }
     IEnumerator CountDown(float amountOfSec)
     {
-        yield return new WaitForSeconds(amountOfSec);
+        float time = 0f;
+        _UITimer.text = amountOfSec.ToString() ;
+        while (time < amountOfSec)
+        {
+            time += Time.deltaTime;
+            float lerpValue = time / amountOfSec;
+            int temp = (int)Mathf.Lerp(amountOfSec, 0.0f, lerpValue);
+            _UITimer.text = temp.ToString();
+            yield return null;
+        }
+        yield return null;
         openCanvas(false);
     }
 }
