@@ -13,6 +13,7 @@ public class LockMiniGameController : MonoBehaviour
     private GameObject _gamePick;
     public List<GameObject> _allPinInGame;
     public TextMeshProUGUI _UIDifficultyType;
+    private PlayerStats player;
 
     [Header("Game Look Settings")]
     public Vector3 _pitSetSpacing;
@@ -22,6 +23,7 @@ public class LockMiniGameController : MonoBehaviour
     [Header("Game Settings")]
     public float _amountOfTime;
     private IEnumerator _timer;
+    private bool _canPlay;
     
     [Header("Difficulty Settings")]
     public float _easySpeed;
@@ -39,14 +41,14 @@ public class LockMiniGameController : MonoBehaviour
         _currentPinPickIsOn = 0;
         _gamePick = null;
         _timer = null;
-        
+        player = GameObject.Find("Player").GetComponent<PlayerStats>();
+        _canPlay = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-
+        if (!_canPlay) return;
 
         if (Input.GetKeyDown(KeyCode.A) && _currentPinPickIsOn > 0)
         {
@@ -60,6 +62,26 @@ public class LockMiniGameController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
+            if (_allPinInGame[_currentPinPickIsOn].GetComponentInChildren<PinController>()._currentState == PinState.Up)
+            {
+                _allPinInGame[_currentPinPickIsOn].GetComponentInChildren<PinController>()._earlyClick = true;
+
+                if(Random.Range(0 , 100) + (player._LockSkillLevel * 100 / 2) < 50)
+                {
+                    --player._numberOfPicks;
+                    player._UINumberOfPicks.text = "Number of Picks: " + player._numberOfPicks;
+                }
+
+                if(player._numberOfPicks < 1)
+                {
+                    for (int i = 0; i < _allPinInGame.Count; i++)
+                    {
+                        _allPinInGame[i].GetComponentInChildren<PinController>()._currentState = PinState.Stopped;
+                    }
+                    openCanvas(false);
+                }
+            }
+
             if(_allPinInGame[_currentPinPickIsOn].GetComponentInChildren<PinController>()._currentState == PinState.Stopped)
             {
                 _allPinInGame[_currentPinPickIsOn].GetComponentInChildren<PinController>()._currentState = PinState.Up;
@@ -79,8 +101,8 @@ public class LockMiniGameController : MonoBehaviour
                 {
                     openCanvas(true);
                 }
-
             }
+            
         }
     }
     public void createLock(int numberOfPins)
@@ -93,16 +115,16 @@ public class LockMiniGameController : MonoBehaviour
             switch (numberOfPins)
             {
                 case 3:
-                    _allPinInGame[i].GetComponentInChildren<PinController>()._speed = _easySpeed;
-                    _allPinInGame[i].GetComponentInChildren<PinTriggerZone>().setTiggerZoneHeight(Random.Range(_minEasySpace, _maxEasySpace));
+                    _allPinInGame[i].GetComponentInChildren<PinController>()._speed = _easySpeed - player._LockSkillLevel;
+                    _allPinInGame[i].GetComponentInChildren<PinTriggerZone>().setTiggerZoneHeight(Random.Range(_minEasySpace, _maxEasySpace) - player._LockSkillLevel / 2);
                     break;
                 case 4:
-                    _allPinInGame[i].GetComponentInChildren<PinController>()._speed = _MediumSpeed;
-                    _allPinInGame[i].GetComponentInChildren<PinTriggerZone>().setTiggerZoneHeight(Random.Range(_minMediumSpace, _maxMediumSpace));
+                    _allPinInGame[i].GetComponentInChildren<PinController>()._speed = _MediumSpeed - player._LockSkillLevel;
+                    _allPinInGame[i].GetComponentInChildren<PinTriggerZone>().setTiggerZoneHeight(Random.Range(_minMediumSpace, _maxMediumSpace) - player._LockSkillLevel / 2);
                     break;
                 case 5:
-                    _allPinInGame[i].GetComponentInChildren<PinController>()._speed = _HardSpeed;
-                    _allPinInGame[i].GetComponentInChildren<PinTriggerZone>().setTiggerZoneHeight(Random.Range(_minHardSpace, _maxHardSpace));
+                    _allPinInGame[i].GetComponentInChildren<PinController>()._speed = _HardSpeed - player._LockSkillLevel;
+                    _allPinInGame[i].GetComponentInChildren<PinTriggerZone>().setTiggerZoneHeight(Random.Range(_minHardSpace, _maxHardSpace) - player._LockSkillLevel / 2);
                     break;
                 default:
                     Debug.Log(numberOfPins + "Lock Settings doesn't exist");
@@ -117,7 +139,8 @@ public class LockMiniGameController : MonoBehaviour
     }
     public void startNewPickGame(int numberOfPins)
     {
-        if(_timer != null)
+        _canPlay = true;
+        if (_timer != null)
         {
             StopCoroutine(_timer);
             _timer = null;
@@ -151,6 +174,7 @@ public class LockMiniGameController : MonoBehaviour
     public void openCanvas(bool win)
     {
         _resultPanel.SetActive(true);
+        _canPlay = false;
         if (win)
         {
             _resultPanel.GetComponentInChildren<TextMeshProUGUI>().text = "Win";

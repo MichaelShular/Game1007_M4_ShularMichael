@@ -1,17 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
- public enum PinState
- {
+public enum PinState
+{
     Stopped,
     Up,
     Reset,
     SetInPlace
- }
+}
 public class PinController : MonoBehaviour
 {
-    public float _speed; 
+    public float _speed;
     public bool _canStop;
+    public bool _earlyClick;
     private Vector3 _direction;
     public PinState _currentState;
     public Vector3 _startPos;
@@ -22,6 +23,7 @@ public class PinController : MonoBehaviour
         _startPos = transform.position;
         _direction = Vector3.up;
         _currentState = PinState.Stopped;
+        _earlyClick = false;
     }
 
     // Update is called once per frame
@@ -34,22 +36,26 @@ public class PinController : MonoBehaviour
                 break;
             case PinState.Up:
                 setPinDirection(Vector3.up);
-                movement();
+                upMovement();
                 break;
             case PinState.Reset:
                 setPinDirection(Vector3.down);
-                movement();
+                dowmMovement();
                 break;
             case PinState.SetInPlace:
-                
+
                 break;
             default:
                 break;
-        }   
+        }
     }
-    private void movement()
+    private void upMovement()
     {
-        transform.position += _direction * _speed * Time.deltaTime; 
+        transform.position += _direction * _speed * Time.deltaTime;
+    }
+    private void dowmMovement()
+    {
+        transform.position += _direction * 50 * Time.deltaTime;
     }
     public void setPinDirection(Vector3 dir)
     {
@@ -71,13 +77,17 @@ public class PinController : MonoBehaviour
                 _currentState = 0;
                 return;
             }
+            _earlyClick = false;
             _currentState++;
         }
         if (collision.CompareTag("CanStop"))
         {
-            if(_currentState == PinState.Up)
+            if (_currentState == PinState.Up)
             {
-                _canStop = true;
+                if (!_earlyClick)
+                {
+                    _canStop = true;
+                }
                 collision.GetComponent<AudioSource>().Play();
             }
         }
@@ -85,5 +95,5 @@ public class PinController : MonoBehaviour
         Debug.Log("Hit");
     }
 
-   
+
 }
