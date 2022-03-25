@@ -7,16 +7,23 @@ public enum MatchThreeColor
 {
     Blue,
     Red,
-    Green
+    Green,
+    None
 }
 public class MatchItemColor : MonoBehaviour
 {
     public MatchThreeColor _currentColor;
+    public Image _image;
+    public int num;
 
+    private void Awake()
+    {
+        _image = GetComponent<Image>();
+    }
     // Start is called before the first frame update
     void Start()
     {
-            
+        
     }
 
     // Update is called once per frame
@@ -28,7 +35,7 @@ public class MatchItemColor : MonoBehaviour
     public void RandomColor()
     {
         int range = Random.Range(0, 3);
-        Debug.Log(range);
+        //Debug.Log(range);
 
         _currentColor = (MatchThreeColor)range;
         switch (range)
