@@ -2350,7 +2350,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 095c0ecc9d1b8d044845b8555915088a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gridSize: 2
+  _gridSize: 6
   _MatchThreeObject: {fileID: 7368340588954838587, guid: 51d551bf81fb91a44ae17fdc28dd84f8, type: 3}
 --- !u!114 &1098841830
 MonoBehaviour:
