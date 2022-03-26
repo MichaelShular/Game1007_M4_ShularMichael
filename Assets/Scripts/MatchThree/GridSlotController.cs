@@ -16,7 +16,7 @@ public class GridSlotController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -24,24 +24,30 @@ public class GridSlotController : MonoBehaviour
         if (collision.CompareTag("Match") && !isFilled)
         {
             collision.GetComponent<MatchItemMovementController>().setYStoppingPosition(this.transform.localPosition.y);
-            collision.GetComponent<MatchItemMovementController>().lastLocalPosition = this.transform.localPosition;
+            collision.GetComponent<MatchItemMovementController>().nextPosition = this.transform.localPosition;
             collision.GetComponent<MatchItemMovementController>().ReallastLocalPosition = this.transform.localPosition;
-
+            collision.GetComponent<MatchItemMovementController>().currentGridSlot = this.gameObject;
 
             collision.GetComponent<MatchItemMovementController>().lastPosition = collision.transform.position;
             currentGameObject = collision.gameObject;
             isFilled = true;
             return;
         }
-        if(collision.CompareTag("Match") && isFilled && collision.GetComponent<MatchItemMovementController>().itemBeingDragged)
+        if (collision.CompareTag("Match") && isFilled && collision.GetComponent<MatchItemMovementController>().itemBeingDragged && !collision.GetComponent<MatchItemMovementController>().swapped)
         {
-            currentGameObject.transform.localPosition = collision.GetComponent<MatchItemMovementController>().lastLocalPosition;
-            
+            collision.GetComponent<MatchItemMovementController>().swapped = true;
+            Vector3 temp = currentGameObject.transform.localPosition;
+
+            currentGameObject.transform.localPosition = collision.GetComponent<MatchItemMovementController>().nextPosition;
+            currentGameObject.GetComponent<MatchItemMovementController>().ReallastLocalPosition = currentGameObject.transform.localPosition;
+            currentGameObject.GetComponent<MatchItemMovementController>().nextPosition = currentGameObject.transform.localPosition;
+
+            currentGameObject.GetComponent<MatchItemMovementController>().currentGridSlot = collision.GetComponent<MatchItemMovementController>().currentGridSlot;
+           
+            collision.GetComponent<MatchItemMovementController>().nextPosition = temp;
+            collision.GetComponent<MatchItemMovementController>().currentGridSlot = this.gameObject;
 
 
-
-
-            collision.GetComponent<MatchItemMovementController>().lastLocalPosition = this.transform.localPosition;
         }
 
     }

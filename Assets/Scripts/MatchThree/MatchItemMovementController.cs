@@ -18,7 +18,7 @@ public class MatchItemMovementController : MonoBehaviour
     public Transform check;
     public MatchItemStates _currentState;
     public bool itemBeingDragged;
-    public Vector3 lastLocalPosition;
+    public Vector3 nextPosition;
     public Vector3 ReallastLocalPosition;
 
     public Vector3 lastPosition;
@@ -27,13 +27,16 @@ public class MatchItemMovementController : MonoBehaviour
     public bool VerticalMovement;
     public bool HorizontalMovment;
 
-    
+    public GameObject currentGridSlot;
+
+    public bool dirSelected;
+    public bool swapped;
 
     // Start is called before the first frame update
     void Start()
     {
         _direction = Vector3.down;
-        VerticalMovement = HorizontalMovment = false;
+        VerticalMovement = HorizontalMovment = dirSelected = swapped = false;
         //checkBelow();
     }
 
@@ -89,17 +92,31 @@ public class MatchItemMovementController : MonoBehaviour
     public void itemDragged()
     {
         itemBeingDragged = true;
-        //Debug.Log(Vector2.SignedAngle(lastLocalPosition, transform.localPosition));
-        if (Vector3.Distance(ReallastLocalPosition, transform.localPosition) > 1)
+        if (dirSelected)
         {
-            if (Mathf.Abs(ReallastLocalPosition.x - transform.localPosition.x) < Mathf.Abs(ReallastLocalPosition.y - transform.localPosition.y))
+            if (HorizontalMovment)
             {
                 transform.position = new Vector3(lastPosition.x, Input.mousePosition.y, 0);
             }
             else
             {
                 transform.position = new Vector3(Input.mousePosition.x, lastPosition.y, 0);
+            }
 
+            return;
+        }
+
+        
+        if (Vector3.Distance(ReallastLocalPosition, transform.localPosition) > 1)
+        {
+            dirSelected = true;
+            if (Mathf.Abs(ReallastLocalPosition.x - transform.localPosition.x) < Mathf.Abs(ReallastLocalPosition.y - transform.localPosition.y))
+            {
+                HorizontalMovment = true;
+            }
+            else
+            {
+                VerticalMovement = true;
             }
             return;
         }
@@ -130,8 +147,8 @@ public class MatchItemMovementController : MonoBehaviour
     }
     public void itemDropped()
     {
-        itemBeingDragged = false;
-        transform.localPosition = lastLocalPosition;
+        itemBeingDragged = HorizontalMovment = VerticalMovement = dirSelected = swapped =false;
+        transform.localPosition = nextPosition;
         //used to move item with mouse press
         
     }
