@@ -98,7 +98,16 @@ MonoBehaviour:
   check: {fileID: 0}
   _currentState: 0
   itemBeingDragged: 0
+  nextPosition: {x: 0, y: 0, z: 0}
+  ReallastLocalPosition: {x: 0, y: 0, z: 0}
   lastPosition: {x: 0, y: 0, z: 0}
+  otherMatch: {fileID: 0}
+  VerticalMovement: 0
+  HorizontalMovment: 0
+  currentGridSlot: {fileID: 0}
+  dirSelected: 0
+  swapped: 0
+  gameController: {fileID: 0}
 --- !u!114 &1691040369199446194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,7 +147,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 10, y: 10}
+  m_Size: {x: 5, y: 5}
   m_EdgeRadius: 0
 --- !u!50 &6286485865260936885
 Rigidbody2D:
@@ -174,29 +183,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates:
-  - eventID: 5
+  - eventID: 2
     callback:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 7368340588954838567}
           m_TargetAssemblyTypeName: MatchItemMovementController, Assembly-CSharp
           m_MethodName: itemDragged
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 6
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 7368340588954838567}
-          m_TargetAssemblyTypeName: MatchItemMovementController, Assembly-CSharp
-          m_MethodName: itemDropped
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

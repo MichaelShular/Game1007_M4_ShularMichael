@@ -6,7 +6,8 @@ public enum MatchItemStates
 {
     Falling,
     SettingPosition,
-    Stopped
+    Stopped,
+    Dragged
 }
 
 public class MatchItemMovementController : MonoBehaviour
@@ -32,9 +33,12 @@ public class MatchItemMovementController : MonoBehaviour
     public bool dirSelected;
     public bool swapped;
 
+    public GameObject gameController;
+
     // Start is called before the first frame update
     void Start()
     {
+        gameController = GameObject.Find("MatchThreeMiniGame");
         _direction = Vector3.down;
         VerticalMovement = HorizontalMovment = dirSelected = swapped = false;
         //checkBelow();
@@ -43,6 +47,10 @@ public class MatchItemMovementController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            HorizontalMovment = true;
+        }
 
         switch (_currentState)
         {
@@ -60,6 +68,9 @@ public class MatchItemMovementController : MonoBehaviour
                 break;
             case MatchItemStates.Stopped:
                 break;
+            case MatchItemStates.Dragged:
+                //isDragged();
+                break;
             default:
                 break;
         }
@@ -75,7 +86,7 @@ public class MatchItemMovementController : MonoBehaviour
     public void setYStoppingPosition(float number)
     {
         _YStoppingPosition = number;
-        
+
     }
     //public void checkBelow()
     //{
@@ -89,9 +100,9 @@ public class MatchItemMovementController : MonoBehaviour
     //    }
     //}
 
-    public void itemDragged()
+    private void isDragged()
     {
-        itemBeingDragged = true;
+        dirSelected = true;
         if (dirSelected)
         {
             if (HorizontalMovment)
@@ -106,20 +117,6 @@ public class MatchItemMovementController : MonoBehaviour
             return;
         }
 
-        
-        if (Vector3.Distance(ReallastLocalPosition, transform.localPosition) > 1)
-        {
-            dirSelected = true;
-            if (Mathf.Abs(ReallastLocalPosition.x - transform.localPosition.x) < Mathf.Abs(ReallastLocalPosition.y - transform.localPosition.y))
-            {
-                HorizontalMovment = true;
-            }
-            else
-            {
-                VerticalMovement = true;
-            }
-            return;
-        }
 
 
         //if (Vector3.Distance(lastLocalPosition, transform.localPosition) > 2)
@@ -136,21 +133,21 @@ public class MatchItemMovementController : MonoBehaviour
         //    return;
         //}
         //used to move item with mouse press
-        if (itemBeingDragged)
-        {
-            
+    }
 
-            transform.position = Input.mousePosition; 
-            
-            
-        }
+    public void itemDragged()
+    {
+        itemBeingDragged = true;
+        _currentState = MatchItemStates.Dragged;
+        gameController.GetComponent<MatchThreeGameController>().addToSwapList(this.gameObject);
     }
     public void itemDropped()
     {
-        itemBeingDragged = HorizontalMovment = VerticalMovement = dirSelected = swapped =false;
+        _currentState = MatchItemStates.Stopped;
+        itemBeingDragged = HorizontalMovment = VerticalMovement = dirSelected = swapped = false;
         transform.localPosition = nextPosition;
         //used to move item with mouse press
-        
+
     }
 
 }

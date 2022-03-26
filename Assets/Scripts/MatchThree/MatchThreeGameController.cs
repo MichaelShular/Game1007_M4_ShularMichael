@@ -12,11 +12,14 @@ public class MatchThreeGameController : MonoBehaviour
     private GameObject[,] cells;
     private List<GameObject> matchingList;
 
+    public List<GameObject> swapItems;
+
     // Start is called before the first frame update
     void Start()
     {
         cells = new GameObject[_gridSize, _gridSize];
         matchingList = new List<GameObject>();
+        swapItems = new List<GameObject>();
         creatingGameBoard();
         createGrid();
     }
@@ -24,7 +27,10 @@ public class MatchThreeGameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if(swapItems.Count == 2)
+        {
+            swap();
+        }
     }
 
     private void createGrid()
@@ -40,7 +46,7 @@ public class MatchThreeGameController : MonoBehaviour
                 GameObject temp = Instantiate(_slot, this.transform);
                 cells[i, j] = temp;
                 temp.transform.localPosition = new Vector3(bottomLimit + 22 * j, -50 + 22 * i, 0);
-                
+
             }
         }
     }
@@ -81,11 +87,11 @@ public class MatchThreeGameController : MonoBehaviour
             for (int j = 0; j < _gridSize; j++)
             {
                 //Debug.Log(count);
-               
-                if(countColorHor == cells[i, j].GetComponent<MatchItemColor>()._currentColor)
+
+                if (countColorHor == cells[i, j].GetComponent<MatchItemColor>()._currentColor)
                 {
                     count++;
-                    
+
                     if (count >= 2)
                     {
                         for (int k = 0; k < matchingList.Count; k++)
@@ -108,10 +114,10 @@ public class MatchThreeGameController : MonoBehaviour
                         }
                     }
                     count = 0;
-                   
+
                     matchingList.Clear();
-                    
-                    
+
+
                 }
                 countColorHor = cells[i, j].GetComponent<MatchItemColor>()._currentColor;
                 matchingList.Add(cells[i, j]);
@@ -136,11 +142,11 @@ public class MatchThreeGameController : MonoBehaviour
             count = 0;
             for (int i = 0; i < _gridSize; i++)
             {
-               
+
                 if (countColorHor == cells[i, j].GetComponent<MatchItemColor>()._currentColor)
                 {
                     count++;
-                    
+
 
                     if (count >= 2)
                     {
@@ -164,12 +170,12 @@ public class MatchThreeGameController : MonoBehaviour
                         }
                     }
                     count = 0;
-                    
+
                     matchingList.Clear();
-                    
+
                 }
                 countColorHor = cells[i, j].GetComponent<MatchItemColor>()._currentColor;
-                 matchingList.Add(cells[i, j]);
+                matchingList.Add(cells[i, j]);
                 //Debug.Log(count + " " + countColorHor);
 
             }
@@ -185,8 +191,21 @@ public class MatchThreeGameController : MonoBehaviour
             }
         }
 
-        
+
+
 
     }
+    private void swap()
+    {
+        Vector3 temp = swapItems[0].transform.localPosition;
+        Vector3 temp2 = swapItems[1].transform.localPosition;
+        swapItems[0].transform.localPosition = temp2;
+        swapItems[1].transform.localPosition = temp;
+        swapItems.Clear();
+    }
 
+    public void addToSwapList(GameObject matchItem)
+    {
+        swapItems.Add(matchItem);
+    }
 }
