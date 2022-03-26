@@ -22,13 +22,13 @@ public class GridSlotController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(letPassCount > 0)
-        {
-            letPassCount--;
-            return;
-        }
+        //if(letPassCount == 0)
+        //{
 
-        if (collision.CompareTag("Match") && !isFilled)
+        //    collision.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+        //}
+
+        if (collision.CompareTag("Match") )
         {
             collision.GetComponent<MatchItemMovementController>().setYStoppingPosition(this.transform.localPosition.y);
             collision.GetComponent<MatchItemMovementController>().nextPosition = this.transform.localPosition;
@@ -37,7 +37,7 @@ public class GridSlotController : MonoBehaviour
 
             collision.GetComponent<MatchItemMovementController>().lastPosition = collision.gameObject.transform.position;
             currentGameObject = collision.gameObject;
-            isFilled = true;
+            //isFilled = true;
             return;
         }
         //if (collision.CompareTag("Match") && isFilled && collision.GetComponent<MatchItemMovementController>().itemBeingDragged && !collision.GetComponent<MatchItemMovementController>().swapped)
@@ -58,6 +58,16 @@ public class GridSlotController : MonoBehaviour
 
         //}
 
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        
+        isFilled = true;
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        isFilled = false;
     }
 
 }

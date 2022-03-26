@@ -7,6 +7,7 @@ TagManager:
   - DirectionChangeZone
   - CanStop
   - Match
+  - MatchDestroy
   layers:
   - Default
   - TransparentFX

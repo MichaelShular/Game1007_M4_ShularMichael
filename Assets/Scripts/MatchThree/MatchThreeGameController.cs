@@ -13,6 +13,8 @@ public class MatchThreeGameController : MonoBehaviour
     private List<GameObject> matchingList;
 
     public List<GameObject> swapItems;
+    public int[] createAmount;
+
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +22,8 @@ public class MatchThreeGameController : MonoBehaviour
         cells = new GameObject[_gridSize, _gridSize];
         matchingList = new List<GameObject>();
         swapItems = new List<GameObject>();
+        createAmount = new int[_gridSize];
+
         creatingGameBoard();
         createGrid();
     }
@@ -70,7 +74,7 @@ public class MatchThreeGameController : MonoBehaviour
                 //cells[i, j] = temp;
                 temp.transform.localPosition = new Vector3(bottomLimit + 22 * i, 100 + 22 * j, 0);
                 temp.GetComponent<MatchItemMovementController>().setYStoppingPosition(-500);
-                temp.GetComponent<MatchItemMovementController>()._currentState = MatchItemStates.Falling;
+                temp.GetComponent<MatchItemMovementController>()._currentState = MatchItemStates.Stopped;
                 temp.GetComponent<MatchItemColor>().RandomColor();
                 temp.GetComponent<MatchItemColor>().num = count;
                 count++;
@@ -111,6 +115,9 @@ public class MatchThreeGameController : MonoBehaviour
                         for (int k = 0; k < matchingList.Count; k++)
                         {
                             matchingList[k].transform.localScale = Vector3.one * 0.2f;
+                            matchingList[k].tag = "MatchDestroy";
+                            //matchingList[k].GetComponent<MatchItemMovementController>().currentGridSlot.GetComponent<GridSlotController>().currentGameObject = null;
+
                             //Destroy(matchingList[k].gameObject);
                         }
                         //cells[i, j].GetComponent<MatchItemColor>()._image.color = Color.black;
@@ -124,6 +131,9 @@ public class MatchThreeGameController : MonoBehaviour
                         for (int k = 0; k < matchingList.Count; k++)
                         {
                             matchingList[k].transform.localScale = Vector3.one * 0.2f;
+                            matchingList[k].tag = "MatchDestroy";
+
+                            //matchingList[k].GetComponent<MatchItemMovementController>().currentGridSlot.GetComponent<GridSlotController>().currentGameObject = null;
                             //Destroy(matchingList[k].gameObject);
                         }
                     }
@@ -143,6 +153,10 @@ public class MatchThreeGameController : MonoBehaviour
                 for (int k = 0; k < matchingList.Count; k++)
                 {
                     matchingList[k].transform.localScale = Vector3.one * 0.2f;
+                    matchingList[k].tag = "MatchDestroy";
+
+                    //matchingList[k].GetComponent<MatchItemMovementController>().currentGridSlot.GetComponent<GridSlotController>().currentGameObject = null;
+
                     //Destroy(matchingList[k].gameObject);
                 }
                 //cells[i, j].GetComponent<MatchItemColor>()._image.color = Color.black;
@@ -156,7 +170,7 @@ public class MatchThreeGameController : MonoBehaviour
             count = 0;
             for (int i = 0; i < _gridSize; i++)
             {
-
+                //cells[i, j].GetComponent<GridSlotController>().isFilled = false;
                 if (countColorHor == cells[i, j].GetComponent<GridSlotController>().currentGameObject.GetComponent<MatchItemColor>()._currentColor)
                 {
                     count++;
@@ -167,6 +181,10 @@ public class MatchThreeGameController : MonoBehaviour
                         for (int k = 0; k < matchingList.Count; k++)
                         {
                             matchingList[k].transform.localScale = Vector3.one * 0.2f;
+                            matchingList[k].tag = "MatchDestroy";
+
+                            //matchingList[k].GetComponent<MatchItemMovementController>().currentGridSlot.GetComponent<GridSlotController>().currentGameObject = null;
+
                             //Destroy(matchingList[k].gameObject);
                         }
                         //cells[i, j].GetComponent<MatchItemColor>()._image.color = Color.black;
@@ -180,6 +198,10 @@ public class MatchThreeGameController : MonoBehaviour
                         for (int k = 0; k < matchingList.Count; k++)
                         {
                             matchingList[k].transform.localScale = Vector3.one * 0.2f;
+                            matchingList[k].tag = "MatchDestroy";
+
+                            //matchingList[k].GetComponent<MatchItemMovementController>().currentGridSlot.GetComponent<GridSlotController>().currentGameObject = null;
+
                             //Destroy(matchingList[k].gameObject);
                         }
                     }
@@ -198,6 +220,10 @@ public class MatchThreeGameController : MonoBehaviour
                 for (int k = 0; k < matchingList.Count; k++)
                 {
                     matchingList[k].transform.localScale = Vector3.one * 0.2f;
+                    matchingList[k].tag = "MatchDestroy";
+
+                    //matchingList[k].GetComponent<MatchItemMovementController>().currentGridSlot.GetComponent<GridSlotController>().currentGameObject = null;
+
                     //Destroy(matchingList[k].gameObject);
                 }
                 //cells[i, j].GetComponent<MatchItemColor>()._image.color = Color.black;
@@ -205,10 +231,109 @@ public class MatchThreeGameController : MonoBehaviour
             }
         }
 
+        GameObject[] temp = GameObject.FindGameObjectsWithTag("MatchDestroy");
 
+        for (int i = 0; i < temp.Length; i++)
+        {
+            temp[i].GetComponent<MatchItemMovementController>().currentGridSlot.GetComponent<GridSlotController>().currentGameObject = null;
+            Destroy(temp[i]);
+        }
+
+
+        //for (int i = 0; i < _gridSize; i++)
+        //{
+        //    for (int j = 0; j < _gridSize; j++)
+        //    {
+        //        if (cells[i, j].GetComponent<GridSlotController>().currentGameObject == null)
+        //        {
+        //            //if (i - 1 > 0)
+        //            //{
+        //            //    //cells[i, j].GetComponent<GridSlotController>().letPassCount = 1 * cells[i -1 , j].GetComponent<GridSlotController>().letPassCount; 
+        //            //}
+        //            //for (int l = i; l < _gridSize; l++)
+        //            //{
+        //            //    if (l + 1 < _gridSize)
+        //            //    {
+        //            //        cells[l + 1, j].GetComponent<GridSlotController>().letPassCount++;
+        //            //    }
+
+        //            //}
+        //            //for (int l = 1; l < _gridSize; l++)
+        //            //{
+        //            //    if (l < _gridSize && cells[j , l].GetComponent<GridSlotController>().currentGameObject != null)
+        //            //    {
+        //            //        cells[ j, l ].GetComponent<GridSlotController>().currentGameObject.GetComponent<MatchItemMovementController>().setYStoppingPosition(cells[i, j].transform.localPosition.y);
+        //            //    }
+
+        //            //}
+
+
+        //            //if (i + 1 < _gridSize && cells[i + 1, j].GetComponent<GridSlotController>().currentGameObject != null)
+        //            //{
+        //            //    cells[i + 1, j].GetComponent<GridSlotController>().letPassCount = 7;
+        //            //    //cells[i + 1, j].GetComponent<GridSlotController>().currentGameObject.GetComponent<MatchItemMovementController>().setYStoppingPosition(-500);
+        //            //    cells[i + 1, j].GetComponent<GridSlotController>().currentGameObject.GetComponent<MatchItemMovementController>()._currentState = MatchItemStates.Falling;
+        //            //    //cells[i + 1, j].GetComponent<GridSlotController>().currentGameObject = null;
+        //            //}
+
+        //        }
+        //    }
+        //}
 
 
     }
+
+    public void place()
+    {
+        int letPassCount = 0;
+        for (int i = 0; i < _gridSize; i++)
+        {
+            for (int j = 0; j < _gridSize; j++)
+            {
+                if (cells[j, i].GetComponent<GridSlotController>().isFilled == false)
+                {
+                    letPassCount++;
+                }
+            }
+            
+            createAmount[i] = letPassCount;
+            letPassCount = 0;
+            Debug.Log(createAmount[i]);
+            //letPassCount--;
+            //for (int l = 0; l < _gridSize; l++)
+            //{
+            //    cells[(_gridSize - 1) - l, i].GetComponent<GridSlotController>().letPassCount = letPassCount;
+            //    letPassCount--;
+            //    if (letPassCount < 0)
+            //    {
+            //        letPassCount = 0;
+            //    }
+            //}
+        }
+
+        float boardSize = _gridSize * 20 + (_gridSize - 1 * 2);
+        float bottomLimit = 0 - boardSize / 2;
+
+        int count = 0;
+        for (int i = 0; i < _gridSize; i++)
+        {
+            for (int j = 0; j < createAmount[i]; j++)
+            {
+
+                GameObject temp = Instantiate(_MatchThreeObject, this.transform);
+                //cells[i, j] = temp;
+                temp.transform.localPosition = new Vector3(bottomLimit + 22 * i, 100 + 22 * j, 0);
+                temp.GetComponent<MatchItemMovementController>().setYStoppingPosition(-500);
+                temp.GetComponent<MatchItemMovementController>()._currentState = MatchItemStates.Stopped;
+                temp.GetComponent<MatchItemColor>().RandomColor();
+                temp.GetComponent<MatchItemColor>().num = count;
+                count++;
+
+            }
+        }
+
+    }
+
     private void swap()
     {
         Vector3 temp = swapItems[0].transform.localPosition;
@@ -227,10 +352,19 @@ public class MatchThreeGameController : MonoBehaviour
         swapItems[1].transform.localPosition = temp;
         swapItems.Clear();
         checkBoard();
+        StartCoroutine(waitFall());
+
+
     }
 
     public void addToSwapList(GameObject matchItem)
     {
         swapItems.Add(matchItem);
+    }
+
+    IEnumerator waitFall()
+    {
+        yield return new WaitForSeconds(8.0f);
+        place();
     }
 }
