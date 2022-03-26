@@ -5,6 +5,7 @@ using UnityEngine;
 public class GridSlotController : MonoBehaviour
 {
     public bool isFilled;
+    public GameObject currentGameObject;
 
     // Start is called before the first frame update
     void Start()
@@ -23,8 +24,26 @@ public class GridSlotController : MonoBehaviour
         if (collision.CompareTag("Match") && !isFilled)
         {
             collision.GetComponent<MatchItemMovementController>().setYStoppingPosition(this.transform.localPosition.y);
-            isFilled = true;   
+            collision.GetComponent<MatchItemMovementController>().lastLocalPosition = this.transform.localPosition;
+            collision.GetComponent<MatchItemMovementController>().ReallastLocalPosition = this.transform.localPosition;
+
+
+            collision.GetComponent<MatchItemMovementController>().lastPosition = collision.transform.position;
+            currentGameObject = collision.gameObject;
+            isFilled = true;
+            return;
         }
+        if(collision.CompareTag("Match") && isFilled && collision.GetComponent<MatchItemMovementController>().itemBeingDragged)
+        {
+            currentGameObject.transform.localPosition = collision.GetComponent<MatchItemMovementController>().lastLocalPosition;
+            
+
+
+
+
+            collision.GetComponent<MatchItemMovementController>().lastLocalPosition = this.transform.localPosition;
+        }
+
     }
 
 }

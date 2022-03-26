@@ -17,11 +17,23 @@ public class MatchItemMovementController : MonoBehaviour
     public float _YStoppingPositionMax;
     public Transform check;
     public MatchItemStates _currentState;
+    public bool itemBeingDragged;
+    public Vector3 lastLocalPosition;
+    public Vector3 ReallastLocalPosition;
+
+    public Vector3 lastPosition;
+
+    public GameObject otherMatch;
+    public bool VerticalMovement;
+    public bool HorizontalMovment;
+
+    
 
     // Start is called before the first frame update
     void Start()
     {
         _direction = Vector3.down;
+        VerticalMovement = HorizontalMovment = false;
         //checkBelow();
     }
 
@@ -74,7 +86,54 @@ public class MatchItemMovementController : MonoBehaviour
     //    }
     //}
 
-    
+    public void itemDragged()
+    {
+        itemBeingDragged = true;
+        //Debug.Log(Vector2.SignedAngle(lastLocalPosition, transform.localPosition));
+        if (Vector3.Distance(ReallastLocalPosition, transform.localPosition) > 1)
+        {
+            if (Mathf.Abs(ReallastLocalPosition.x - transform.localPosition.x) < Mathf.Abs(ReallastLocalPosition.y - transform.localPosition.y))
+            {
+                transform.position = new Vector3(lastPosition.x, Input.mousePosition.y, 0);
+            }
+            else
+            {
+                transform.position = new Vector3(Input.mousePosition.x, lastPosition.y, 0);
 
+            }
+            return;
+        }
+
+
+        //if (Vector3.Distance(lastLocalPosition, transform.localPosition) > 2)
+        //{
+        //    if(Vector3.Angle(lastLocalPosition, transform.localPosition) > 45 && Vector3.Angle(lastLocalPosition, transform.localPosition) < 135 || Vector3.Angle(lastLocalPosition, transform.localPosition) > 225 && Vector3.Angle(lastLocalPosition, transform.localPosition) < 315)
+        //    {
+        //        
+        //    }
+        //    else
+        //    {
+        //        transform.position = new Vector3(lastPosition.x, Input.mousePosition.y, 0);
+
+        //    }
+        //    return;
+        //}
+        //used to move item with mouse press
+        if (itemBeingDragged)
+        {
+            
+
+            transform.position = Input.mousePosition; 
+            
+            
+        }
+    }
+    public void itemDropped()
+    {
+        itemBeingDragged = false;
+        transform.localPosition = lastLocalPosition;
+        //used to move item with mouse press
+        
+    }
 
 }
