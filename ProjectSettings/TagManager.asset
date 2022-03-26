@@ -6,6 +6,7 @@ TagManager:
   tags:
   - DirectionChangeZone
   - CanStop
+  - Match
   layers:
   - Default
   - TransparentFX

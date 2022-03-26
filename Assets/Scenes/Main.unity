@@ -2352,6 +2352,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gridSize: 6
   _MatchThreeObject: {fileID: 7368340588954838587, guid: 51d551bf81fb91a44ae17fdc28dd84f8, type: 3}
+  _slot: {fileID: 1576663455185577900, guid: 08ca2807988cde5479cacfaa262835f4, type: 3}
 --- !u!114 &1098841830
 MonoBehaviour:
   m_ObjectHideFlags: 0
