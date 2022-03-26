@@ -6,6 +6,7 @@ public class GridSlotController : MonoBehaviour
 {
     public bool isFilled;
     public GameObject currentGameObject;
+    public int letPassCount;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +22,12 @@ public class GridSlotController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if(letPassCount > 0)
+        {
+            letPassCount--;
+            return;
+        }
+
         if (collision.CompareTag("Match") && !isFilled)
         {
             collision.GetComponent<MatchItemMovementController>().setYStoppingPosition(this.transform.localPosition.y);

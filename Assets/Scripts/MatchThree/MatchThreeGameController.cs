@@ -27,7 +27,7 @@ public class MatchThreeGameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(swapItems.Count == 2)
+        if (swapItems.Count == 2)
         {
             swap();
         }
@@ -37,7 +37,7 @@ public class MatchThreeGameController : MonoBehaviour
     {
         float boardSize = _gridSize * 20 + (_gridSize - 1 * 2);
         float bottomLimit = 0 - boardSize / 2;
-
+        int passCount = 0;
         for (int i = 0; i < _gridSize; i++)
         {
             for (int j = 0; j < _gridSize; j++)
@@ -46,9 +46,13 @@ public class MatchThreeGameController : MonoBehaviour
                 GameObject temp = Instantiate(_slot, this.transform);
                 cells[i, j] = temp;
                 temp.transform.localPosition = new Vector3(bottomLimit + 22 * j, -50 + 22 * i, 0);
-
+                temp.GetComponent<GridSlotController>().letPassCount = passCount;
             }
+            passCount++;
         }
+
+
+
     }
 
     private void creatingGameBoard()
@@ -63,7 +67,7 @@ public class MatchThreeGameController : MonoBehaviour
             {
 
                 GameObject temp = Instantiate(_MatchThreeObject, this.transform);
-                cells[i, j] = temp;
+                //cells[i, j] = temp;
                 temp.transform.localPosition = new Vector3(bottomLimit + 22 * i, 100 + 22 * j, 0);
                 temp.GetComponent<MatchItemMovementController>().setYStoppingPosition(-500);
                 temp.GetComponent<MatchItemMovementController>()._currentState = MatchItemStates.Falling;
@@ -79,6 +83,16 @@ public class MatchThreeGameController : MonoBehaviour
     private void checkBoard()
     {
         MatchThreeColor countColorHor = MatchThreeColor.None;
+        //for (int i = 0; i < _gridSize; i++)
+        //{
+        //    for (int j = 0; j < _gridSize; j++)
+        //    {
+        //        cells[i,j] 
+        //    }
+        //}
+
+
+
         int count = 0;
         for (int i = 0; i < _gridSize; i++)
         {
@@ -88,7 +102,7 @@ public class MatchThreeGameController : MonoBehaviour
             {
                 //Debug.Log(count);
 
-                if (countColorHor == cells[i, j].GetComponent<MatchItemColor>()._currentColor)
+                if (countColorHor == cells[i, j].GetComponent<GridSlotController>().currentGameObject.GetComponent<MatchItemColor>()._currentColor)
                 {
                     count++;
 
@@ -119,8 +133,8 @@ public class MatchThreeGameController : MonoBehaviour
 
 
                 }
-                countColorHor = cells[i, j].GetComponent<MatchItemColor>()._currentColor;
-                matchingList.Add(cells[i, j]);
+                countColorHor = cells[i, j].GetComponent<GridSlotController>().currentGameObject.GetComponent<MatchItemColor>()._currentColor;
+                matchingList.Add(cells[i, j].GetComponent<GridSlotController>().currentGameObject);
                 //Debug.Log(matchingList);
 
             }
@@ -143,7 +157,7 @@ public class MatchThreeGameController : MonoBehaviour
             for (int i = 0; i < _gridSize; i++)
             {
 
-                if (countColorHor == cells[i, j].GetComponent<MatchItemColor>()._currentColor)
+                if (countColorHor == cells[i, j].GetComponent<GridSlotController>().currentGameObject.GetComponent<MatchItemColor>()._currentColor)
                 {
                     count++;
 
@@ -174,8 +188,8 @@ public class MatchThreeGameController : MonoBehaviour
                     matchingList.Clear();
 
                 }
-                countColorHor = cells[i, j].GetComponent<MatchItemColor>()._currentColor;
-                matchingList.Add(cells[i, j]);
+                countColorHor = cells[i, j].GetComponent<GridSlotController>().currentGameObject.GetComponent<MatchItemColor>()._currentColor;
+                matchingList.Add(cells[i, j].GetComponent<GridSlotController>().currentGameObject);
                 //Debug.Log(count + " " + countColorHor);
 
             }
@@ -199,9 +213,20 @@ public class MatchThreeGameController : MonoBehaviour
     {
         Vector3 temp = swapItems[0].transform.localPosition;
         Vector3 temp2 = swapItems[1].transform.localPosition;
+
+        GameObject tempGridSlot = swapItems[0].GetComponent<MatchItemMovementController>().currentGridSlot;
+        GameObject tempGridSlot2 = swapItems[1].GetComponent<MatchItemMovementController>().currentGridSlot;
+
+        swapItems[0].GetComponent<MatchItemMovementController>().currentGridSlot = tempGridSlot2;
+        swapItems[1].GetComponent<MatchItemMovementController>().currentGridSlot = tempGridSlot;
+
+        swapItems[0].GetComponent<MatchItemMovementController>().currentGridSlot.GetComponent<GridSlotController>().currentGameObject = swapItems[0].gameObject;
+        swapItems[1].GetComponent<MatchItemMovementController>().currentGridSlot.GetComponent<GridSlotController>().currentGameObject = swapItems[1].gameObject;
+
         swapItems[0].transform.localPosition = temp2;
         swapItems[1].transform.localPosition = temp;
         swapItems.Clear();
+        checkBoard();
     }
 
     public void addToSwapList(GameObject matchItem)
