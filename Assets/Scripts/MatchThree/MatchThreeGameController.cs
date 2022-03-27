@@ -34,6 +34,8 @@ public class MatchThreeGameController : MonoBehaviour
     public int _HardScoreToWin;
     private int _ScoreTarget;
 
+    [Header("Audio")]
+    private AudioSource _matchSound;
 
 
     // Start is called before the first frame update
@@ -44,7 +46,7 @@ public class MatchThreeGameController : MonoBehaviour
         swapItems = new List<GameObject>();
         createAmount = new int[_gridSize];
         _canPlay = false;
-
+        _matchSound = GetComponent<AudioSource>();
 
     }
 
@@ -140,6 +142,7 @@ public class MatchThreeGameController : MonoBehaviour
                         {
                             matchingList[k].transform.localScale = Vector3.one * 0.2f;
                             matchingList[k].tag = "MatchDestroy";
+                            
                             //matchingList[k].GetComponent<MatchItemMovementController>().currentGridSlot.GetComponent<GridSlotController>().currentGameObject = null;
 
                             //Destroy(matchingList[k].gameObject);
@@ -156,11 +159,13 @@ public class MatchThreeGameController : MonoBehaviour
                         {
                             matchingList[k].transform.localScale = Vector3.one * 0.2f;
                             matchingList[k].tag = "MatchDestroy";
-
+                            
                             //matchingList[k].GetComponent<MatchItemMovementController>().currentGridSlot.GetComponent<GridSlotController>().currentGameObject = null;
                             //Destroy(matchingList[k].gameObject);
                         }
+                        updateScore(100 + 50 * count);
                     }
+                    
                     count = 0;
 
                     matchingList.Clear();
@@ -178,6 +183,7 @@ public class MatchThreeGameController : MonoBehaviour
                 {
                     matchingList[k].transform.localScale = Vector3.one * 0.2f;
                     matchingList[k].tag = "MatchDestroy";
+                    
 
                     //matchingList[k].GetComponent<MatchItemMovementController>().currentGridSlot.GetComponent<GridSlotController>().currentGameObject = null;
 
@@ -206,6 +212,7 @@ public class MatchThreeGameController : MonoBehaviour
                         {
                             matchingList[k].transform.localScale = Vector3.one * 0.2f;
                             matchingList[k].tag = "MatchDestroy";
+                            
 
                             //matchingList[k].GetComponent<MatchItemMovementController>().currentGridSlot.GetComponent<GridSlotController>().currentGameObject = null;
 
@@ -223,12 +230,15 @@ public class MatchThreeGameController : MonoBehaviour
                         {
                             matchingList[k].transform.localScale = Vector3.one * 0.2f;
                             matchingList[k].tag = "MatchDestroy";
+                           
 
                             //matchingList[k].GetComponent<MatchItemMovementController>().currentGridSlot.GetComponent<GridSlotController>().currentGameObject = null;
 
                             //Destroy(matchingList[k].gameObject);
                         }
+                        updateScore(100 + 50 * count);
                     }
+                    
                     count = 0;
 
                     matchingList.Clear();
@@ -245,6 +255,7 @@ public class MatchThreeGameController : MonoBehaviour
                 {
                     matchingList[k].transform.localScale = Vector3.one * 0.2f;
                     matchingList[k].tag = "MatchDestroy";
+                    
 
                     //matchingList[k].GetComponent<MatchItemMovementController>().currentGridSlot.GetComponent<GridSlotController>().currentGameObject = null;
 
@@ -256,6 +267,10 @@ public class MatchThreeGameController : MonoBehaviour
         }
 
         GameObject[] temp = GameObject.FindGameObjectsWithTag("MatchDestroy");
+        if(temp.Length > 0)
+        {
+            _matchSound.Play();
+        }
 
         for (int i = 0; i < temp.Length; i++)
         {
@@ -478,5 +493,13 @@ public class MatchThreeGameController : MonoBehaviour
             Destroy(temp[i].gameObject);
         }
     }
+    private void updateScore(int amount)
+    {
+        _CurrentScore += amount;
+        _UIScore.text = _CurrentScore.ToString();
+        _slider.value = _CurrentScore;
+
+    }
+
 
 }
