@@ -114,16 +114,8 @@ public class MatchThreeGameController : MonoBehaviour
     private void checkBoard()
     {
         MatchThreeColor countColorHor = MatchThreeColor.None;
-        //for (int i = 0; i < _gridSize; i++)
-        //{
-        //    for (int j = 0; j < _gridSize; j++)
-        //    {
-        //        cells[i,j] 
-        //    }
-        //}
 
-
-
+        Debug.Log(_numberOfColors);
         int count = 0;
         for (int i = 0; i < _gridSize; i++)
         {
@@ -139,32 +131,43 @@ public class MatchThreeGameController : MonoBehaviour
 
                     if (count >= 2)
                     {
+                        if ( _numberOfColors == 5 && count >= 4)
+                        {
+                            for (int f = 0; f < _gridSize; f++)
+                            {
+                                matchingList.Add(cells[i, f].GetComponent<GridSlotController>().currentGameObject);
+
+                            }
+                        }
                         for (int k = 0; k < matchingList.Count; k++)
                         {
                             matchingList[k].transform.localScale = Vector3.one * 0.2f;
                             matchingList[k].tag = "MatchDestroy";
-                            
-                            //matchingList[k].GetComponent<MatchItemMovementController>().currentGridSlot.GetComponent<GridSlotController>().currentGameObject = null;
-
-                            //Destroy(matchingList[k].gameObject);
+                           
                         }
-                        //cells[i, j].GetComponent<MatchItemColor>()._image.color = Color.black;
-                        //Debug.Log("Hit");
+
                     }
                 }
                 else
                 {
                     if (count >= 2)
                     {
+                        if (_numberOfColors == 5 && count >= 4)
+                        {
+                            for (int f = 0; f < _gridSize; f++)
+                            {
+                                matchingList.Add(cells[i, f].GetComponent<GridSlotController>().currentGameObject);
+                                
+                            }
+                        }
                         for (int k = 0; k < matchingList.Count; k++)
                         {
                             matchingList[k].transform.localScale = Vector3.one * 0.2f;
                             matchingList[k].tag = "MatchDestroy";
-                            
-                            //matchingList[k].GetComponent<MatchItemMovementController>().currentGridSlot.GetComponent<GridSlotController>().currentGameObject = null;
-                            //Destroy(matchingList[k].gameObject);
+
                         }
                         updateScore(100 + 50 * count);
+                        
                     }
                     
                     count = 0;
@@ -184,14 +187,9 @@ public class MatchThreeGameController : MonoBehaviour
                 {
                     matchingList[k].transform.localScale = Vector3.one * 0.2f;
                     matchingList[k].tag = "MatchDestroy";
-                    
-
-                    //matchingList[k].GetComponent<MatchItemMovementController>().currentGridSlot.GetComponent<GridSlotController>().currentGameObject = null;
-
-                    //Destroy(matchingList[k].gameObject);
+                   
                 }
-                //cells[i, j].GetComponent<MatchItemColor>()._image.color = Color.black;
-                //Debug.Log("Hit");
+
             }
         }
 
@@ -209,35 +207,41 @@ public class MatchThreeGameController : MonoBehaviour
 
                     if (count >= 2)
                     {
+                        if (_numberOfColors == 5 && count >= 4)
+                        {
+                            for (int f = 0; f < _gridSize; f++)
+                            {
+                                matchingList.Add(cells[f, j].GetComponent<GridSlotController>().currentGameObject);
+                            }
+                        }
                         for (int k = 0; k < matchingList.Count; k++)
                         {
                             matchingList[k].transform.localScale = Vector3.one * 0.2f;
                             matchingList[k].tag = "MatchDestroy";
-                            
 
-                            //matchingList[k].GetComponent<MatchItemMovementController>().currentGridSlot.GetComponent<GridSlotController>().currentGameObject = null;
-
-                            //Destroy(matchingList[k].gameObject);
                         }
-                        //cells[i, j].GetComponent<MatchItemColor>()._image.color = Color.black;
-                        //Debug.Log("Hit");
+
                     }
                 }
                 else
                 {
                     if (count >= 2)
-                    {
+                    { 
+                        if( _numberOfColors == 5 && count >= 4)
+                        {
+                            for (int f = 0; f < _gridSize; f++)
+                            {
+                                matchingList.Add(cells[f, j].GetComponent<GridSlotController>().currentGameObject);
+                            }
+                        }
                         for (int k = 0; k < matchingList.Count; k++)
                         {
                             matchingList[k].transform.localScale = Vector3.one * 0.2f;
                             matchingList[k].tag = "MatchDestroy";
-                           
-
-                            //matchingList[k].GetComponent<MatchItemMovementController>().currentGridSlot.GetComponent<GridSlotController>().currentGameObject = null;
-
-                            //Destroy(matchingList[k].gameObject);
                         }
                         updateScore(100 + 50 * count);
+                       
+
                     }
                     
                     count = 0;
@@ -247,8 +251,6 @@ public class MatchThreeGameController : MonoBehaviour
                 }
                 countColorHor = cells[i, j].GetComponent<GridSlotController>().currentGameObject.GetComponent<MatchItemColor>()._currentColor;
                 matchingList.Add(cells[i, j].GetComponent<GridSlotController>().currentGameObject);
-                //Debug.Log(count + " " + countColorHor);
-
             }
             if (count >= 2)
             {
@@ -256,14 +258,7 @@ public class MatchThreeGameController : MonoBehaviour
                 {
                     matchingList[k].transform.localScale = Vector3.one * 0.2f;
                     matchingList[k].tag = "MatchDestroy";
-                    
-
-                    //matchingList[k].GetComponent<MatchItemMovementController>().currentGridSlot.GetComponent<GridSlotController>().currentGameObject = null;
-
-                    //Destroy(matchingList[k].gameObject);
                 }
-                //cells[i, j].GetComponent<MatchItemColor>()._image.color = Color.black;
-                //Debug.Log("Hit");
             }
         }
 
@@ -278,49 +273,6 @@ public class MatchThreeGameController : MonoBehaviour
             temp[i].GetComponent<MatchItemMovementController>().currentGridSlot.GetComponent<GridSlotController>().currentGameObject = null;
             Destroy(temp[i]);
         }
-
-
-        //for (int i = 0; i < _gridSize; i++)
-        //{
-        //    for (int j = 0; j < _gridSize; j++)
-        //    {
-        //        if (cells[i, j].GetComponent<GridSlotController>().currentGameObject == null)
-        //        {
-        //            //if (i - 1 > 0)
-        //            //{
-        //            //    //cells[i, j].GetComponent<GridSlotController>().letPassCount = 1 * cells[i -1 , j].GetComponent<GridSlotController>().letPassCount; 
-        //            //}
-        //            //for (int l = i; l < _gridSize; l++)
-        //            //{
-        //            //    if (l + 1 < _gridSize)
-        //            //    {
-        //            //        cells[l + 1, j].GetComponent<GridSlotController>().letPassCount++;
-        //            //    }
-
-        //            //}
-        //            //for (int l = 1; l < _gridSize; l++)
-        //            //{
-        //            //    if (l < _gridSize && cells[j , l].GetComponent<GridSlotController>().currentGameObject != null)
-        //            //    {
-        //            //        cells[ j, l ].GetComponent<GridSlotController>().currentGameObject.GetComponent<MatchItemMovementController>().setYStoppingPosition(cells[i, j].transform.localPosition.y);
-        //            //    }
-
-        //            //}
-
-
-        //            //if (i + 1 < _gridSize && cells[i + 1, j].GetComponent<GridSlotController>().currentGameObject != null)
-        //            //{
-        //            //    cells[i + 1, j].GetComponent<GridSlotController>().letPassCount = 7;
-        //            //    //cells[i + 1, j].GetComponent<GridSlotController>().currentGameObject.GetComponent<MatchItemMovementController>().setYStoppingPosition(-500);
-        //            //    cells[i + 1, j].GetComponent<GridSlotController>().currentGameObject.GetComponent<MatchItemMovementController>()._currentState = MatchItemStates.Falling;
-        //            //    //cells[i + 1, j].GetComponent<GridSlotController>().currentGameObject = null;
-        //            //}
-
-        //        }
-        //    }
-        //}
-
-
     }
 
     public void place()
@@ -339,16 +291,6 @@ public class MatchThreeGameController : MonoBehaviour
             createAmount[i] = letPassCount;
             letPassCount = 0;
             Debug.Log(createAmount[i]);
-            //letPassCount--;
-            //for (int l = 0; l < _gridSize; l++)
-            //{
-            //    cells[(_gridSize - 1) - l, i].GetComponent<GridSlotController>().letPassCount = letPassCount;
-            //    letPassCount--;
-            //    if (letPassCount < 0)
-            //    {
-            //        letPassCount = 0;
-            //    }
-            //}
         }
 
         float boardSize = _gridSize * 20 + (_gridSize - 1 * 2);

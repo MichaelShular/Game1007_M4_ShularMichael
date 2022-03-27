@@ -2833,9 +2833,9 @@ MonoBehaviour:
   _resultPanel: {fileID: 701229816}
   _slider: {fileID: 138941975}
   _amountOfTime: 30
-  _EasyScoreToWin: 10000
-  _MediumScoreToWin: 15000
-  _HardScoreToWin: 20000
+  _EasyScoreToWin: 1000
+  _MediumScoreToWin: 1500
+  _HardScoreToWin: 2000
 --- !u!114 &1098841830
 MonoBehaviour:
   m_ObjectHideFlags: 0

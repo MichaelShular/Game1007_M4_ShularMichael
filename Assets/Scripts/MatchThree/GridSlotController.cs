@@ -22,12 +22,6 @@ public class GridSlotController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //if(letPassCount == 0)
-        //{
-
-        //    collision.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
-        //}
-
         if (collision.CompareTag("Match") )
         {
             collision.GetComponent<MatchItemMovementController>().setYStoppingPosition(this.transform.localPosition.y);
@@ -40,24 +34,6 @@ public class GridSlotController : MonoBehaviour
             //isFilled = true;
             return;
         }
-        //if (collision.CompareTag("Match") && isFilled && collision.GetComponent<MatchItemMovementController>().itemBeingDragged && !collision.GetComponent<MatchItemMovementController>().swapped)
-        //{
-        //    collision.GetComponent<MatchItemMovementController>().swapped = true;
-        //    Vector3 temp = currentGameObject.transform.localPosition;
-
-        //    currentGameObject.transform.localPosition = collision.GetComponent<MatchItemMovementController>().nextPosition;
-        //    currentGameObject.GetComponent<MatchItemMovementController>().ReallastLocalPosition = currentGameObject.transform.localPosition;
-        //    currentGameObject.GetComponent<MatchItemMovementController>().nextPosition = currentGameObject.transform.localPosition;
-            
-        //    currentGameObject.GetComponent<MatchItemMovementController>().currentGridSlot = collision.GetComponent<MatchItemMovementController>().currentGridSlot;
-        //    currentGameObject.GetComponent<MatchItemMovementController>().lastPosition = currentGameObject.GetComponent<MatchItemMovementController>().currentGridSlot.transform.position;
-
-        //    collision.gameObject.GetComponent<MatchItemMovementController>().nextPosition = transform.localPosition;
-        //    collision.gameObject.GetComponent<MatchItemMovementController>().currentGridSlot = this.gameObject;
-
-
-        //}
-
     }
 
     private void OnTriggerStay2D(Collider2D collision)

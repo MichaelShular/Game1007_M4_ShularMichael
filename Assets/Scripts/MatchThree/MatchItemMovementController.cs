@@ -88,17 +88,6 @@ public class MatchItemMovementController : MonoBehaviour
         _YStoppingPosition = number;
 
     }
-    //public void checkBelow()
-    //{
-    //    Debug.Log("3f");
-    //    if (_currentState != MatchItemStates.Stopped) return;
-    //    Debug.Log("ff");
-    //    RaycastHit2D hit = Physics2D.Raycast(check.position, Vector2.down, 100.0f);
-    //    if (hit.collider == null)
-    //    {
-    //        Debug.Log("aa");
-    //    }
-    //}
 
     private void isDragged()
     {
@@ -116,23 +105,6 @@ public class MatchItemMovementController : MonoBehaviour
 
             return;
         }
-
-
-
-        //if (Vector3.Distance(lastLocalPosition, transform.localPosition) > 2)
-        //{
-        //    if(Vector3.Angle(lastLocalPosition, transform.localPosition) > 45 && Vector3.Angle(lastLocalPosition, transform.localPosition) < 135 || Vector3.Angle(lastLocalPosition, transform.localPosition) > 225 && Vector3.Angle(lastLocalPosition, transform.localPosition) < 315)
-        //    {
-        //        
-        //    }
-        //    else
-        //    {
-        //        transform.position = new Vector3(lastPosition.x, Input.mousePosition.y, 0);
-
-        //    }
-        //    return;
-        //}
-        //used to move item with mouse press
     }
 
     public void itemDragged()
