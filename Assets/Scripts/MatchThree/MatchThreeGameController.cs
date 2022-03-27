@@ -395,6 +395,8 @@ public class MatchThreeGameController : MonoBehaviour
     public void StartMatchThree(int amount)
     {
         //reseting values
+        _CurrentScore = 0;
+        _slider.value = 0;
         _canPlay = true;
         if (_timer != null)
         {
