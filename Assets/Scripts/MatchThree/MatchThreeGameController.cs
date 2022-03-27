@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 public class MatchThreeGameController : MonoBehaviour
 {
@@ -16,6 +18,24 @@ public class MatchThreeGameController : MonoBehaviour
     public int[] createAmount;
 
 
+    [Header("Setting GameObjects")]
+    public TextMeshProUGUI _UITimer;
+    public TextMeshProUGUI _UIScore;
+    public GameObject _resultPanel;
+    public Slider _slider;
+
+    [Header("Game Settings")]
+    public float _amountOfTime;
+    private IEnumerator _timer;
+    private bool _canPlay;
+    private int _CurrentScore;
+    public int _EasyScoreToWin;
+    public int _MediumScoreToWin;
+    public int _HardScoreToWin;
+    private int _ScoreTarget;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,14 +43,15 @@ public class MatchThreeGameController : MonoBehaviour
         matchingList = new List<GameObject>();
         swapItems = new List<GameObject>();
         createAmount = new int[_gridSize];
+        _canPlay = false;
 
-        creatingGameBoard();
-        createGrid();
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!_canPlay) return;
         if (swapItems.Count == 2)
         {
             swap();
@@ -72,7 +93,10 @@ public class MatchThreeGameController : MonoBehaviour
 
                 GameObject temp = Instantiate(_MatchThreeObject, this.transform);
                 //cells[i, j] = temp;
+
                 temp.transform.localPosition = new Vector3(bottomLimit + 22 * i, 100 + 22 * j, 0);
+                temp.transform.SetParent(GameObject.Find("Box").transform);
+
                 temp.GetComponent<MatchItemMovementController>().setYStoppingPosition(-500);
                 temp.GetComponent<MatchItemMovementController>()._currentState = MatchItemStates.Stopped;
                 temp.GetComponent<MatchItemColor>().RandomColor();
@@ -295,7 +319,7 @@ public class MatchThreeGameController : MonoBehaviour
                     letPassCount++;
                 }
             }
-            
+
             createAmount[i] = letPassCount;
             letPassCount = 0;
             Debug.Log(createAmount[i]);
@@ -367,4 +391,92 @@ public class MatchThreeGameController : MonoBehaviour
         yield return new WaitForSeconds(8.0f);
         place();
     }
+
+    public void openCanvas(bool win)
+    {
+        //Game result display opens
+        _resultPanel.SetActive(true);
+        //_canPlay = false;
+        if (win)
+        {
+            _resultPanel.GetComponentInChildren<TextMeshProUGUI>().text = "Win";
+        }
+        else
+        {
+            _resultPanel.GetComponentInChildren<TextMeshProUGUI>().text = "Fail";
+        }
+    }
+
+    IEnumerator CountDown(float amountOfSec)
+    {
+        float time = 0f;
+        _UITimer.text = amountOfSec.ToString();
+        while (time < amountOfSec)
+        {
+            time += Time.deltaTime;
+            float lerpValue = time / amountOfSec;
+            int temp = (int)Mathf.Lerp(amountOfSec, 0.0f, lerpValue);
+            _UITimer.text = temp.ToString();
+            yield return null;
+        }
+        yield return null;
+        openCanvas(false);
+    }
+
+    public void StartMatchThree(int amount)
+    {
+        //reseting values
+        _canPlay = true;
+        if (_timer != null)
+        {
+            StopCoroutine(_timer);
+            _timer = null;
+        }
+        //Deleting old board
+        clear();
+
+        //calulating timer base on difficulty
+        _timer = CountDown(amount * _amountOfTime);
+        //starting timer
+        StartCoroutine(_timer);
+        //reseting values
+
+        _resultPanel.SetActive(false);
+
+        switch (amount)
+        {
+            case 3:
+                _UIScore.text = _EasyScoreToWin.ToString();
+                _ScoreTarget = _EasyScoreToWin;
+                _slider.maxValue = _ScoreTarget;
+                break;
+            case 4:
+                _UIScore.text = _MediumScoreToWin.ToString();
+                _ScoreTarget = _MediumScoreToWin;
+                _slider.maxValue = _ScoreTarget;
+                break;
+            case 5:
+                _UIScore.text = _HardScoreToWin.ToString();
+                _ScoreTarget = _HardScoreToWin;
+                _slider.maxValue = _ScoreTarget;
+                break;
+            default:
+                Debug.Log(amount + "Lock Settings doesn't exist");
+                break;
+        }
+
+        creatingGameBoard();
+        createGrid();
+
+    }
+
+    private void clear()
+    {
+        GameObject[] temp = GameObject.FindGameObjectsWithTag("Match");
+        for (int i = 0; i < temp.Length; i++)
+        {
+            Destroy(temp[i].gameObject);
+        }
+    }
+
 }
