@@ -2832,7 +2832,7 @@ MonoBehaviour:
   _UIScore: {fileID: 1835201143}
   _resultPanel: {fileID: 701229816}
   _slider: {fileID: 138941975}
-  _amountOfTime: 30
+  _amountOfTime: 20
   _EasyScoreToWin: 1000
   _MediumScoreToWin: 1500
   _HardScoreToWin: 2000

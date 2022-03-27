@@ -55,6 +55,10 @@ public class MatchThreeGameController : MonoBehaviour
     void Update()
     {
         if (!_canPlay) return;
+        if(_ScoreTarget <= _CurrentScore)
+        {
+            openCanvas(true);
+        }
         if (swapItems.Count == 2)
         {
             swap();
@@ -305,6 +309,8 @@ public class MatchThreeGameController : MonoBehaviour
                 GameObject temp = Instantiate(_MatchThreeObject, this.transform);
                 //cells[i, j] = temp;
                 temp.transform.localPosition = new Vector3(bottomLimit + 22 * i, 100 + 22 * j, 0);
+                temp.transform.SetParent(GameObject.Find("Box").transform);
+
                 temp.GetComponent<MatchItemMovementController>().setYStoppingPosition(-500);
                 temp.GetComponent<MatchItemMovementController>()._currentState = MatchItemStates.Stopped;
                 temp.GetComponent<MatchItemColor>().RandomColor(_numberOfColors);
@@ -352,6 +358,11 @@ public class MatchThreeGameController : MonoBehaviour
 
     public void openCanvas(bool win)
     {
+        if (_timer != null)
+        {
+            StopCoroutine(_timer);
+            _timer = null;
+        }
         //Game result display opens
         _resultPanel.SetActive(true);
         //_canPlay = false;
