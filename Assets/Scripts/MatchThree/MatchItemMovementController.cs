@@ -137,9 +137,14 @@ public class MatchItemMovementController : MonoBehaviour
 
     public void itemDragged()
     {
-        itemBeingDragged = true;
-        _currentState = MatchItemStates.Dragged;
-        gameController.GetComponent<MatchThreeGameController>().addToSwapList(this.gameObject);
+        if (!GetComponent<MatchItemColor>()._isWall)
+        {
+            itemBeingDragged = true;
+            _currentState = MatchItemStates.Dragged;
+            gameController.GetComponent<MatchThreeGameController>().addToSwapList(this.gameObject);
+        }
+
+
     }
     public void itemDropped()
     {

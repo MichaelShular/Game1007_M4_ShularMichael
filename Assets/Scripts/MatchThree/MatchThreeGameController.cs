@@ -33,6 +33,7 @@ public class MatchThreeGameController : MonoBehaviour
     public int _MediumScoreToWin;
     public int _HardScoreToWin;
     private int _ScoreTarget;
+    private int _numberOfColors;
 
     [Header("Audio")]
     private AudioSource _matchSound;
@@ -101,7 +102,7 @@ public class MatchThreeGameController : MonoBehaviour
 
                 temp.GetComponent<MatchItemMovementController>().setYStoppingPosition(-500);
                 temp.GetComponent<MatchItemMovementController>()._currentState = MatchItemStates.Stopped;
-                temp.GetComponent<MatchItemColor>().RandomColor();
+                temp.GetComponent<MatchItemColor>().RandomColor(_numberOfColors);
                 temp.GetComponent<MatchItemColor>().num = count;
                 count++;
 
@@ -364,7 +365,7 @@ public class MatchThreeGameController : MonoBehaviour
                 temp.transform.localPosition = new Vector3(bottomLimit + 22 * i, 100 + 22 * j, 0);
                 temp.GetComponent<MatchItemMovementController>().setYStoppingPosition(-500);
                 temp.GetComponent<MatchItemMovementController>()._currentState = MatchItemStates.Stopped;
-                temp.GetComponent<MatchItemColor>().RandomColor();
+                temp.GetComponent<MatchItemColor>().RandomColor(_numberOfColors);
                 temp.GetComponent<MatchItemColor>().num = count;
                 count++;
 
@@ -457,6 +458,7 @@ public class MatchThreeGameController : MonoBehaviour
         //reseting values
 
         _resultPanel.SetActive(false);
+        _numberOfColors = amount;
 
         switch (amount)
         {

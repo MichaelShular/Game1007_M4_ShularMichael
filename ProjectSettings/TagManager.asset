@@ -9,6 +9,7 @@ TagManager:
   - Match
   - MatchDestroy
   - GridSlot
+  - Wall
   layers:
   - Default
   - TransparentFX
