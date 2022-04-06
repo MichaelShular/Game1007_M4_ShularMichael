@@ -5,14 +5,17 @@ using TMPro;
 
 public class HackingMiniGameController : MonoBehaviour
 {
-    public GameObject gridTile;
-    public List<GameObject> allGridTiles;
+    [Header("Grid Settings")]
+    public GameObject _gridTile;
+    public List<GameObject> _allGridTiles;
+    public int _gridSize;
+    public Transform _GridCenter;
 
     [Header("Timer Settings")]
     private IEnumerator _timer;
     public float _amountOfTime;
 
-    [Header("UI  Settings")]
+    [Header("UI Settings")]
     public TextMeshProUGUI _UITimer;
     public GameObject _resultPanel;
 
@@ -32,6 +35,23 @@ public class HackingMiniGameController : MonoBehaviour
 
     private void CreateBoard()
     {
+        //Used to align grid on center of one transform
+        float boardSize = _gridSize * 20 + (_gridSize - 1 * 2);
+        float bottomLimitX = _GridCenter.localPosition.x - boardSize / 2;
+        float bottomLimitY = _GridCenter.localPosition.y - boardSize / 2;
+
+        int count = 0;
+        for (int i = 0; i < _gridSize; i++)
+        {
+            for (int j = 0; j < _gridSize; j++)
+            { 
+                GameObject temp = Instantiate(_gridTile, this.transform);
+                temp.transform.localPosition = new Vector3(bottomLimitX + 33 * i, bottomLimitY + 33 * j, 0);
+                temp.transform.SetParent(_GridCenter);
+
+                count++;
+            }
+        }
 
 
         GenerateWinningTilesComination();
