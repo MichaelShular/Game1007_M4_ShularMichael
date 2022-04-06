@@ -368,11 +368,11 @@ public class MatchThreeGameController : MonoBehaviour
         //_canPlay = false;
         if (win)
         {
-            _resultPanel.GetComponentInChildren<TextMeshProUGUI>().text = "Win";
+            _resultPanel.GetComponentInChildren<TextMeshProUGUI>().text = "Successful Hack";
         }
         else
         {
-            _resultPanel.GetComponentInChildren<TextMeshProUGUI>().text = "Fail";
+            _resultPanel.GetComponentInChildren<TextMeshProUGUI>().text = "Hack Failed";
         }
     }
 

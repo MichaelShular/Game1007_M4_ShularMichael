@@ -1218,10 +1218,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MatchThreeGameController, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 3
+      - m_Target: {fileID: 2122437848}
+        m_TargetAssemblyTypeName: HackingMiniGameController, Assembly-CSharp
+        m_MethodName: OnStartGamePressed
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4335,10 +4335,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MatchThreeGameController, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 3
+      - m_Target: {fileID: 2122437848}
+        m_TargetAssemblyTypeName: HackingMiniGameController, Assembly-CSharp
+        m_MethodName: OnStartGamePressed
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -6297,10 +6297,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MatchThreeGameController, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 3
+      - m_Target: {fileID: 2122437848}
+        m_TargetAssemblyTypeName: HackingMiniGameController, Assembly-CSharp
+        m_MethodName: OnStartGamePressed
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -7999,6 +7999,7 @@ GameObject:
   - component: {fileID: 2122437846}
   - component: {fileID: 2122437845}
   - component: {fileID: 2122437844}
+  - component: {fileID: 2122437848}
   m_Layer: 5
   m_Name: HackingMiniGame
   m_TagString: Untagged
@@ -8091,6 +8092,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &2122437848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2122437843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2766c5164cde3074b91d6d9ded584cb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridTile: {fileID: 0}
+  allGridTiles: []
+  _amountOfTime: 60
+  _UITimer: {fileID: 1437998150}
+  _resultPanel: {fileID: 295951343}
 --- !u!224 &5146416675395025808
 RectTransform:
   m_ObjectHideFlags: 0
