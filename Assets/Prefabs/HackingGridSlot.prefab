@@ -147,6 +147,7 @@ GameObject:
   - component: {fileID: 8231401590952981187}
   - component: {fileID: 8231401590952981184}
   - component: {fileID: 8231401590952981185}
+  - component: {fileID: 772531533707307840}
   m_Layer: 5
   m_Name: HackingGridSlot
   m_TagString: Untagged
@@ -239,3 +240,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 100, y: 100}
   m_EdgeRadius: 0
+--- !u!114 &772531533707307840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8231401590952981191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64312888bfc7757458d377f6a77fc67a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  row: 0
+  column: 0
+  code: 

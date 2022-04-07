@@ -7,7 +7,7 @@ public class HackingMiniGameController : MonoBehaviour
 {
     [Header("Grid Settings")]
     public GameObject _gridTile;
-    public List<GameObject> _allGridTiles;
+    public GameObject[,] _allGridTiles;
     public int _gridSize;
     public Transform _GridCenter;
 
@@ -20,17 +20,26 @@ public class HackingMiniGameController : MonoBehaviour
     public GameObject _resultPanel;
 
 
+    private string _code;
+    private string[,] _codeList;
+
+    public List<string> _EasyCombination;
+    public List<string> _MediumCombination;
+    public List<string> _HardCombination;
+
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        _allGridTiles = new GameObject[_gridSize, _gridSize];
+        _codeList = new string[_gridSize, _gridSize];
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void CreateBoard()
@@ -44,28 +53,130 @@ public class HackingMiniGameController : MonoBehaviour
         for (int i = 0; i < _gridSize; i++)
         {
             for (int j = 0; j < _gridSize; j++)
-            { 
+            {
                 GameObject temp = Instantiate(_gridTile, this.transform);
                 temp.transform.localPosition = new Vector3(bottomLimitX + 33 * i, bottomLimitY + 33 * j, 0);
                 temp.transform.SetParent(_GridCenter);
+
+                _allGridTiles[i, j] = temp;
+
+                CreateCode();
+                temp.GetComponentInChildren<TextMeshProUGUI>().text = _code;
+                _codeList[i, j] = _code;
+
+                temp.GetComponent<HackingGridSlotScript>().row = j;
+                temp.GetComponent<HackingGridSlotScript>().column = i;
+                temp.GetComponent<HackingGridSlotScript>().code = _code;
 
                 count++;
             }
         }
 
 
-        GenerateWinningTilesComination();
+        GenerateWinningTilescCombination();
     }
 
-    private void GenerateWinningTilesComination()
+    private void GenerateWinningTilescCombination()
     {
+
+        int temp = Random.Range(0, _gridSize);
+        int temp2 = Random.Range(0, _gridSize);
+        int checkNum;
+        for (int i = 0; i < 2; i++)
+        {
+            if (i % 2 == 0)
+            {
+                checkNum = temp;
+                while (checkNum == temp2)
+                {
+                    temp = Random.Range(0, _gridSize);
+                }
+            }
+            else
+            {
+                checkNum = temp2;
+                while (checkNum == temp2)
+                {
+                    temp2 = Random.Range(0, _gridSize);
+                }
+            }
+            _EasyCombination.Add(_allGridTiles[temp, temp2].GetComponent<HackingGridSlotScript>().code);
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            if (i % 2 == 0)
+            {
+                checkNum = temp;
+                while (checkNum == temp)
+                {
+                    temp = Random.Range(0, _gridSize);
+                }
+            }
+            else
+            {
+                checkNum = temp2;
+                while (checkNum == temp2)
+                {
+                    temp2 = Random.Range(0, _gridSize);
+                }
+            }
+            _MediumCombination.Add(_allGridTiles[temp, temp2].GetComponent<HackingGridSlotScript>().code);
+        }
+
+        for (int i = 0; i < 4; i++)
+        {
+            if (i % 2 == 0)
+            {
+                checkNum = temp;
+                while (checkNum == temp)
+                {
+                    temp = Random.Range(0, _gridSize);
+                }
+            }
+            else
+            {
+                checkNum = temp2;
+                while (checkNum == temp2)
+                {
+                    temp2 = Random.Range(0, _gridSize);
+                }
+            }
+            _HardCombination.Add(_allGridTiles[temp, temp2].GetComponent<HackingGridSlotScript>().code);
+        }
+
+
+
+
+        //temp2 = Random.Range(0, _gridSize);
+        //_EasyCombination.Add(_allGridTiles[temp, temp2].GetComponent<HackingGridSlotScript>().code);
+
+        //temp = Random.Range(0, _gridSize);
+        //temp2 = Random.Range(0, _gridSize);
+
+        //_MediumCombination.Add(_allGridTiles[temp, temp2].GetComponent<HackingGridSlotScript>().code);
+        //temp2 = Random.Range(0, _gridSize);
+        //_MediumCombination.Add(_allGridTiles[temp, temp2].GetComponent<HackingGridSlotScript>().code);
+        //temp = Random.Range(0, _gridSize);
+        //_MediumCombination.Add(_allGridTiles[temp, temp2].GetComponent<HackingGridSlotScript>().code);
+
+        //temp = Random.Range(0, _gridSize);
+        //temp2 = Random.Range(0, _gridSize);
+
+        //_HardCombination.Add(_allGridTiles[temp, temp2].GetComponent<HackingGridSlotScript>().code);
+        //temp2 = Random.Range(0, _gridSize);
+        //_HardCombination.Add(_allGridTiles[temp, temp2].GetComponent<HackingGridSlotScript>().code);
+        //temp = Random.Range(0, _gridSize);
+        //_HardCombination.Add(_allGridTiles[temp, temp2].GetComponent<HackingGridSlotScript>().code);
+        //temp2 = Random.Range(0, _gridSize);
+        //_HardCombination.Add(_allGridTiles[temp, temp2].GetComponent<HackingGridSlotScript>().code);
 
     }
 
     private void ResetBoard()
     {
 
-    } 
+    }
 
     public void OnStartGamePressed()
     {
@@ -121,6 +232,15 @@ public class HackingMiniGameController : MonoBehaviour
             _resultPanel.GetComponentInChildren<TextMeshProUGUI>().text = "Fail";
         }
     }
+
+
+    private void CreateCode()
+    {
+        int a = Random.Range(0, 9);
+        int b = Random.Range(0, 9);
+        _code = a.ToString() + b.ToString();
+    }
+
 
 
 }
