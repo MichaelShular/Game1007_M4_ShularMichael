@@ -7,16 +7,21 @@ public class HackingGridSlotScript : MonoBehaviour
     public int row;
     public int column;
 
-    public string code; 
+    public string code;
+
+    HackingMiniGameController controller;
     // Start is called before the first frame update
     void Start()
     {
-        
+        controller = GameObject.FindObjectOfType<HackingMiniGameController>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnSlotClicked()
     {
-        
+        if (code == controller._EasyCombination[0])
+        {
+            Debug.Log("True");
+        }
+
     }
 }

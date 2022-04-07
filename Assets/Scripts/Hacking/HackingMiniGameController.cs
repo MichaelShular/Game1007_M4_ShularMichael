@@ -18,6 +18,11 @@ public class HackingMiniGameController : MonoBehaviour
     [Header("UI Settings")]
     public TextMeshProUGUI _UITimer;
     public GameObject _resultPanel;
+    public GameObject _CodeCombinationUI;
+    public Transform _EasyButton;
+    public Transform _MediumButton;
+    public Transform _HardButton;
+
 
 
     private string _code;
@@ -27,7 +32,7 @@ public class HackingMiniGameController : MonoBehaviour
     public List<string> _MediumCombination;
     public List<string> _HardCombination;
 
-
+    
 
     // Start is called before the first frame update
     void Start()
@@ -100,7 +105,13 @@ public class HackingMiniGameController : MonoBehaviour
                     temp2 = Random.Range(0, _gridSize);
                 }
             }
-            _EasyCombination.Add(_allGridTiles[temp, temp2].GetComponent<HackingGridSlotScript>().code);
+            string tempString = _allGridTiles[temp, temp2].GetComponent<HackingGridSlotScript>().code;
+            _EasyCombination.Add(tempString);
+
+            GameObject tempGameObject = Instantiate(_CodeCombinationUI);
+            tempGameObject.transform.SetParent(_EasyButton);
+            tempGameObject.transform.position = new Vector3(50 + i * 33, _EasyButton.position.y - 30, 0);
+            tempGameObject.GetComponent<TextMeshProUGUI>().text = tempString;
         }
 
         for (int i = 0; i < 3; i++)
@@ -121,7 +132,13 @@ public class HackingMiniGameController : MonoBehaviour
                     temp2 = Random.Range(0, _gridSize);
                 }
             }
-            _MediumCombination.Add(_allGridTiles[temp, temp2].GetComponent<HackingGridSlotScript>().code);
+            string tempString = _allGridTiles[temp, temp2].GetComponent<HackingGridSlotScript>().code;
+            _MediumCombination.Add(tempString);
+
+            GameObject tempGameObject = Instantiate(_CodeCombinationUI);
+            tempGameObject.transform.SetParent(_MediumButton);
+            tempGameObject.transform.position = new Vector3(50 + i * 33, _MediumButton.position.y - 30, 0);
+            tempGameObject.GetComponent<TextMeshProUGUI>().text = tempString;
         }
 
         for (int i = 0; i < 4; i++)
@@ -142,7 +159,14 @@ public class HackingMiniGameController : MonoBehaviour
                     temp2 = Random.Range(0, _gridSize);
                 }
             }
-            _HardCombination.Add(_allGridTiles[temp, temp2].GetComponent<HackingGridSlotScript>().code);
+            string tempString = _allGridTiles[temp, temp2].GetComponent<HackingGridSlotScript>().code;
+            _HardCombination.Add(tempString);
+           
+            GameObject tempGameObject = Instantiate(_CodeCombinationUI);
+            tempGameObject.transform.SetParent(_HardButton);
+            tempGameObject.transform.position = new Vector3( 50 + i * 33, _HardButton.position.y - 30, 0);
+            tempGameObject.GetComponent<TextMeshProUGUI>().text = tempString;
+
         }
 
 
