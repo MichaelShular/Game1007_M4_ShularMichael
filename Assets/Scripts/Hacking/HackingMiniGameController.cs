@@ -23,8 +23,6 @@ public class HackingMiniGameController : MonoBehaviour
     public Transform _MediumButton;
     public Transform _HardButton;
 
-
-
     private string _code;
     private string[,] _codeList;
 
@@ -39,6 +37,9 @@ public class HackingMiniGameController : MonoBehaviour
     public List<GameObject> _MediumCombinationUI;
     public List<GameObject> _HardCombinationUI;
 
+    bool firstGame;
+
+
 
 
     // Start is called before the first frame update
@@ -48,12 +49,7 @@ public class HackingMiniGameController : MonoBehaviour
         _codeList = new string[_gridSize, _gridSize];
         _combinationSuccess = new bool[3] { true, true, true };
         _currentHackCheck = -1;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        firstGame = true;
     }
 
     private void CreateBoard()
@@ -176,54 +172,20 @@ public class HackingMiniGameController : MonoBehaviour
             }
             string tempString = _allGridTiles[temp, temp2].GetComponent<HackingGridSlotScript>().code;
             _HardCombination.Add(tempString);
-           
+
             GameObject tempGameObject = Instantiate(_CodeCombinationUI);
             tempGameObject.transform.SetParent(_HardButton);
-            tempGameObject.transform.position = new Vector3( 50 + i * 33, _HardButton.position.y - 30, 0);
+            tempGameObject.transform.position = new Vector3(50 + i * 33, _HardButton.position.y - 30, 0);
             tempGameObject.GetComponent<TextMeshProUGUI>().text = tempString;
             _HardCombinationUI.Add(tempGameObject);
 
         }
-
-
-
-
-        //temp2 = Random.Range(0, _gridSize);
-        //_EasyCombination.Add(_allGridTiles[temp, temp2].GetComponent<HackingGridSlotScript>().code);
-
-        //temp = Random.Range(0, _gridSize);
-        //temp2 = Random.Range(0, _gridSize);
-
-        //_MediumCombination.Add(_allGridTiles[temp, temp2].GetComponent<HackingGridSlotScript>().code);
-        //temp2 = Random.Range(0, _gridSize);
-        //_MediumCombination.Add(_allGridTiles[temp, temp2].GetComponent<HackingGridSlotScript>().code);
-        //temp = Random.Range(0, _gridSize);
-        //_MediumCombination.Add(_allGridTiles[temp, temp2].GetComponent<HackingGridSlotScript>().code);
-
-        //temp = Random.Range(0, _gridSize);
-        //temp2 = Random.Range(0, _gridSize);
-
-        //_HardCombination.Add(_allGridTiles[temp, temp2].GetComponent<HackingGridSlotScript>().code);
-        //temp2 = Random.Range(0, _gridSize);
-        //_HardCombination.Add(_allGridTiles[temp, temp2].GetComponent<HackingGridSlotScript>().code);
-        //temp = Random.Range(0, _gridSize);
-        //_HardCombination.Add(_allGridTiles[temp, temp2].GetComponent<HackingGridSlotScript>().code);
-        //temp2 = Random.Range(0, _gridSize);
-        //_HardCombination.Add(_allGridTiles[temp, temp2].GetComponent<HackingGridSlotScript>().code);
-
     }
 
     private void ResetBoard()
     {
         _combinationSuccess = new bool[3] { true, true, true };
         _currentHackCheck = -1;
-
-    }
-
-    public void OnStartGamePressed()
-    {
-        ResetBoard();
-        CreateBoard();
 
         if (_timer != null)
         {
@@ -236,6 +198,46 @@ public class HackingMiniGameController : MonoBehaviour
         //starting timer
         StartCoroutine(_timer);
         //reseting values
+
+        _resultPanel.SetActive(false);
+
+
+
+    }
+
+    public void OnStartGamePressed()
+    {
+        CleanBoard();
+        ResetBoard();
+        CreateBoard();
+        firstGame = false;
+    }
+
+    private void CleanBoard()
+    {
+        if (firstGame) return;
+        foreach (var tile in _allGridTiles)
+        {
+            Destroy(tile.gameObject);
+        }
+        foreach (var UI in _EasyCombinationUI)
+        {
+            Destroy(UI.gameObject);
+        }
+        foreach (var UI in _MediumCombinationUI)
+        {
+            Destroy(UI.gameObject);
+        }
+        foreach (var UI in _HardCombinationUI)
+        {
+            Destroy(UI.gameObject);
+        }
+        _EasyCombinationUI.Clear();
+        _MediumCombinationUI.Clear();
+        _HardCombinationUI.Clear();
+        _EasyCombination.Clear();
+        _MediumCombination.Clear();
+        _HardCombination.Clear();
 
     }
 
