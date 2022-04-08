@@ -32,13 +32,22 @@ public class HackingMiniGameController : MonoBehaviour
     public List<string> _MediumCombination;
     public List<string> _HardCombination;
 
-    
+    public bool[] _combinationSuccess;
+    public int _currentHackCheck;
+
+    public List<GameObject> _EasyCombinationUI;
+    public List<GameObject> _MediumCombinationUI;
+    public List<GameObject> _HardCombinationUI;
+
+
 
     // Start is called before the first frame update
     void Start()
     {
         _allGridTiles = new GameObject[_gridSize, _gridSize];
         _codeList = new string[_gridSize, _gridSize];
+        _combinationSuccess = new bool[3] { true, true, true };
+        _currentHackCheck = -1;
     }
 
     // Update is called once per frame
@@ -112,6 +121,9 @@ public class HackingMiniGameController : MonoBehaviour
             tempGameObject.transform.SetParent(_EasyButton);
             tempGameObject.transform.position = new Vector3(50 + i * 33, _EasyButton.position.y - 30, 0);
             tempGameObject.GetComponent<TextMeshProUGUI>().text = tempString;
+
+            _EasyCombinationUI.Add(tempGameObject);
+
         }
 
         for (int i = 0; i < 3; i++)
@@ -139,6 +151,9 @@ public class HackingMiniGameController : MonoBehaviour
             tempGameObject.transform.SetParent(_MediumButton);
             tempGameObject.transform.position = new Vector3(50 + i * 33, _MediumButton.position.y - 30, 0);
             tempGameObject.GetComponent<TextMeshProUGUI>().text = tempString;
+
+            _MediumCombinationUI.Add(tempGameObject);
+
         }
 
         for (int i = 0; i < 4; i++)
@@ -166,6 +181,7 @@ public class HackingMiniGameController : MonoBehaviour
             tempGameObject.transform.SetParent(_HardButton);
             tempGameObject.transform.position = new Vector3( 50 + i * 33, _HardButton.position.y - 30, 0);
             tempGameObject.GetComponent<TextMeshProUGUI>().text = tempString;
+            _HardCombinationUI.Add(tempGameObject);
 
         }
 
@@ -199,6 +215,8 @@ public class HackingMiniGameController : MonoBehaviour
 
     private void ResetBoard()
     {
+        _combinationSuccess = new bool[3] { true, true, true };
+        _currentHackCheck = -1;
 
     }
 
@@ -237,7 +255,7 @@ public class HackingMiniGameController : MonoBehaviour
         OpenResultPanel(false);
     }
 
-    private void OpenResultPanel(bool result)
+    public void OpenResultPanel(bool result)
     {
         if (_timer != null)
         {
