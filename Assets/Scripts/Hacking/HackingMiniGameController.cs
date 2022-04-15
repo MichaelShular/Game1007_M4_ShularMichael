@@ -39,17 +39,32 @@ public class HackingMiniGameController : MonoBehaviour
 
     bool firstGame;
 
-
+    public PlayerStats _playerStats;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        _playerStats = GameObject.Find("Player").GetComponent<PlayerStats>();
+        if (_playerStats._HackingSkillLevel < 3)
+        {
+            _gridSize = 7;
+        }
+        else if (_playerStats._HackingSkillLevel < 6)
+        {
+            _gridSize = 6;
+        }
+        else
+        {
+            _gridSize = 5;
+        }
+
         _allGridTiles = new GameObject[_gridSize, _gridSize];
         _codeList = new string[_gridSize, _gridSize];
         _combinationSuccess = new bool[3] { true, true, true };
         _currentHackCheck = -1;
         firstGame = true;
+
     }
 
     private void CreateBoard()
@@ -184,6 +199,23 @@ public class HackingMiniGameController : MonoBehaviour
 
     private void ResetBoard()
     {
+        if (_playerStats._HackingSkillLevel < 3)
+        {
+            _gridSize = 7;
+        }
+        else if(_playerStats._HackingSkillLevel < 6)
+        {
+            _gridSize = 6;
+        }
+        else
+        {
+            _gridSize = 5;
+        }
+
+        _allGridTiles = new GameObject[_gridSize, _gridSize];
+        _codeList = new string[_gridSize, _gridSize];
+
+
         _combinationSuccess = new bool[3] { true, true, true };
         _currentHackCheck = -1;
 
@@ -194,7 +226,7 @@ public class HackingMiniGameController : MonoBehaviour
         }
 
         //calulating timer base on difficulty
-        _timer = CountDown(_amountOfTime);
+        _timer = CountDown(_amountOfTime + (_playerStats._HackingSkillLevel * 5));
         //starting timer
         StartCoroutine(_timer);
         //reseting values
