@@ -8715,7 +8715,7 @@ MonoBehaviour:
   _gridTile: {fileID: 8231401590952981191, guid: 7ed64adbdf066284f9a3472dbe2f1fde, type: 3}
   _gridSize: 5
   _GridCenter: {fileID: 944699835}
-  _amountOfTime: 1000
+  _amountOfTime: 10
   _UITimer: {fileID: 1437998150}
   _resultPanel: {fileID: 295951343}
   _CodeCombinationUI: {fileID: 391350760849345115, guid: b3a1104539fba8c4981d77d934ec35cb, type: 3}
