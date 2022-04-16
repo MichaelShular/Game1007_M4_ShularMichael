@@ -41,6 +41,7 @@ public class HackingMiniGameController : MonoBehaviour
 
     public PlayerStats _playerStats;
 
+    public int _LastNumberToCheck = -1;
 
     // Start is called before the first frame update
     void Start()
@@ -92,6 +93,8 @@ public class HackingMiniGameController : MonoBehaviour
                 temp.GetComponent<HackingGridSlotScript>().row = j;
                 temp.GetComponent<HackingGridSlotScript>().column = i;
                 temp.GetComponent<HackingGridSlotScript>().code = _code;
+
+
 
                 count++;
             }
@@ -215,6 +218,8 @@ public class HackingMiniGameController : MonoBehaviour
         _allGridTiles = new GameObject[_gridSize, _gridSize];
         _codeList = new string[_gridSize, _gridSize];
 
+        _LastNumberToCheck = -1;
+        
 
         _combinationSuccess = new bool[3] { true, true, true };
         _currentHackCheck = -1;

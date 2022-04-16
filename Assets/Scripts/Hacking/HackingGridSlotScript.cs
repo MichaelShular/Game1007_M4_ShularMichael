@@ -7,6 +7,7 @@ public class HackingGridSlotScript : MonoBehaviour
 {
     public int row;
     public int column;
+    public int checkingNumber;
 
     public string code;
 
@@ -22,8 +23,18 @@ public class HackingGridSlotScript : MonoBehaviour
         controller._currentHackCheck++;
 
         checkIfSuccess();
-        
-        if(controller._currentHackCheck == controller._HardCombinationUI.Count -1)
+        if (controller._currentHackCheck % 2 == 0)
+        {
+            Debug.Log("asd");
+           
+         controller._LastNumberToCheck = column;
+        }
+        else
+        {
+            Debug.Log("aege");
+            controller._LastNumberToCheck = row;
+        }
+        if (controller._currentHackCheck == controller._HardCombinationUI.Count - 1)
         {
             bool temp = false;
             foreach (bool item in controller._combinationSuccess)
@@ -42,7 +53,26 @@ public class HackingGridSlotScript : MonoBehaviour
 
     public void checkIfSuccess()
     {
-        if (controller._combinationSuccess[2] && code == controller._HardCombination[controller._currentHackCheck])
+        if (controller._LastNumberToCheck == -1)
+        {
+            controller._LastNumberToCheck = row;  
+            
+        }
+        if (controller._currentHackCheck % 2 == 0)
+        {
+            checkingNumber = row;
+            Debug.Log("sad");
+        }
+        else
+        {
+            checkingNumber = column;
+            Debug.Log("a");
+
+        }
+        Debug.Log(checkingNumber);
+        Debug.Log(controller._currentHackCheck);
+
+        if (controller._combinationSuccess[2] && code == controller._HardCombination[controller._currentHackCheck] && checkingNumber == controller._LastNumberToCheck)
         {
             controller._HardCombinationUI[controller._currentHackCheck].GetComponentInChildren<Image>().enabled = true;
         }
@@ -55,7 +85,7 @@ public class HackingGridSlotScript : MonoBehaviour
 
         if (controller._currentHackCheck >= controller._MediumCombination.Count) return;
 
-        if (controller._combinationSuccess[1] && code == controller._MediumCombination[controller._currentHackCheck])
+        if (controller._combinationSuccess[1] && code == controller._MediumCombination[controller._currentHackCheck] && checkingNumber == controller._LastNumberToCheck)
         {
             controller._MediumCombinationUI[controller._currentHackCheck].GetComponentInChildren<Image>().enabled = true;
         }
@@ -68,7 +98,7 @@ public class HackingGridSlotScript : MonoBehaviour
 
         if (controller._currentHackCheck >= controller._EasyCombination.Count) return;
 
-        if (controller._combinationSuccess[0] && code == controller._EasyCombination[controller._currentHackCheck])
+        if (controller._combinationSuccess[0] && code == controller._EasyCombination[controller._currentHackCheck] && checkingNumber == controller._LastNumberToCheck)
         {
             controller._EasyCombinationUI[controller._currentHackCheck].GetComponentInChildren<Image>().enabled = true;
         }
@@ -78,5 +108,7 @@ public class HackingGridSlotScript : MonoBehaviour
             controller._EasyCombinationUI[controller._currentHackCheck].GetComponentInChildren<Image>().color = Color.red;
             controller._combinationSuccess[0] = false;
         }
+
+        
     }
 }
